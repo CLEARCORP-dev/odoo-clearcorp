@@ -33,4 +33,10 @@ class ProductProduct(osv.osv):
             vals['default_code'] = default_code
         result = super(ProductProduct, self).create(cr, uid, vals, context=context)
         return result
+    
+    _sql_constraints = [
+        ('default_code_unique',
+        'UNIQUE(default_code)',
+        'Default Code already exist ')
+                        ]
 
