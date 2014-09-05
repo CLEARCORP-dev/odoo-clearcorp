@@ -23,7 +23,7 @@
 from openerp.osv import fields, osv
 
 class ProductInvoiceReport(osv.osv_memory):
-    _name = "invoice.report.wiz"
+    _name = "product.invoice.report.wiz"
     _description = "Product Invoice Report Wizard"
     
     #This method filter list of products depends of origin. 
@@ -50,6 +50,19 @@ class ProductInvoiceReport(osv.osv_memory):
         # the value is preserved, but disappears from the screen (a rare bug)
     #    res = obj.read(cr, uid, list, ['name'], context)
     #    return [(str(r['id']), r['name']) for r in res]
+    def _check_filter_date(self, cr, uid, ids, context={}):
+        for wiz in self.browse(cr, uid, ids, context=context):
+            if wiz.filter=='filter_date':
+               if wiz.date_from>wiz.date_to:
+                   return False
+        return True
+    
+    def _check_filter_period(self, cr, uid, ids, context={}):
+        for wiz in self.browse(cr, uid, ids, context=context):
+            if wiz.filter=='filter_period':
+               if wiz.period_from.date_start>wiz.period_to.date_stop:
+                   return False
+        return True
     
     _columns = {
         'sortby':fields.selection([('sort_date', 'Sort Date'), ('sort_period','Sort Period'), ('sort_partner','Sort Partner'),('sort_product','Sort Product'),('sort_product_category','Sort Product Category')], string="Sort by"),
@@ -59,103 +72,92 @@ class ProductInvoiceReport(osv.osv_memory):
         'fiscalyear_id':fields.many2one('account.fiscalyear'),
         'period_to': fields.many2one('account.period',string="End Period"),
         'period_from': fields.many2one('account.period',string="Start Period"),
-        'partner_ids': fields.many2many('res.partner',string="Customer")
-       
-       
+        'partner_ids': fields.many2many('res.partner',string="Customer")   
+       }
         
-        
+    _constraints = [
+        (_check_filter_date,'Start Date must be less than End Date ',['date_from','date_to']
+         ),
+         (_check_filter_period,'Start Period must be less than End Period',['period_from','period_to']
+         )]  
         
 
-        
-        
-        
-        'date_from': fields.date("Start Date"),
-        'date_to': fields.date("End Date"),
-        'type': fields.selection([('category', 'Product Category'), ('product', 'Product')], 'Type'),
-        'origin':fields.selection([('national', 'National'), ('mixed','Mixed'), ('international','International')], 'Origin'),
-        'currency_id':fields.many2one('res.currency','Currency'),
-        'user_id': fields.many2one('res.users', 'Sale Agent'),
-        'partner_id': fields.many2one('res.partner', 'Partner'),
-        'product_ids': fields.many2many('product.product', string='Product'),
-        'category_ids': fields.many2many('product.category', string='Product Category'),   
-        'out_format': fields.selection(out_format_get, 'Print Format'), 
-    }
     
-    def _build_contexts(self, cr, uid, ids, data, context=None):
-        if context is None:
-            context = {}
-        result = {}
-        
-        result['date_from'] = 'date_from' in data['form'] and data['form']['date_from'] or False
-        result['date_to'] = 'date_to' in data['form'] and data['form']['date_to'] or False
-        result['type'] = 'type' in data['form'] and data['form']['type'] or False
-        result['origin'] = 'origin' in data['form'] and data['form']['origin'] or False
-        
-        #m2m, m2o fields
-        result['currency_id'] = 'currency_id' in data['form'] and data['form']['currency_id'] or False
-        result['user_id'] = 'user_id' in data['form'] and data['form']['user_id'] or False
-        result['partner_id'] = 'partner_id' in data['form'] and data['form']['partner_id'] or False
-        result['product_ids'] = 'product_ids' in data['form'] and data['form']['product_ids'] or False
-        result['category_ids'] = 'category_ids' in data['form'] and data['form']['category_ids'] or False
-        
-        return result
+#     def _build_contexts(self, cr, uid, ids, data, context=None):
+#         if context is None:
+#             context = {}
+#         result = {}
+#         
+#         result['date_from'] = 'date_from' in data['form'] and data['form']['date_from'] or False
+#         result['date_to'] = 'date_to' in data['form'] and data['form']['date_to'] or False
+#         result['type'] = 'type' in data['form'] and data['form']['type'] or False
+#         result['origin'] = 'origin' in data['form'] and data['form']['origin'] or False
+#         
+#         #m2m, m2o fields
+#         result['currency_id'] = 'currency_id' in data['form'] and data['form']['currency_id'] or False
+#         result['user_id'] = 'user_id' in data['form'] and data['form']['user_id'] or False
+#         result['partner_id'] = 'partner_id' in data['form'] and data['form']['partner_id'] or False
+#         result['product_ids'] = 'product_ids' in data['form'] and data['form']['product_ids'] or False
+#         result['category_ids'] = 'category_ids' in data['form'] and data['form']['category_ids'] or False
+#         
+#         return result
     
-    def _print_report(self, cr, uid, ids, data, context=None):
-        mimetype = self.pool.get('report.mimetypes')
-        report_obj = self.pool.get('ir.actions.report.xml')
-        report_name = ''
-      
-        context = context or {}
-            
-        #=======================================================================
-        # onchange_in_format method changes variable out_format depending of 
-        # which in_format is choose. 
-        # If out_format is pdf -> call record in odt format 
-        #
-        # If mimetype is PDF -> out_format = PDF (search odt record)
-        # If record doesn't exist, return a error.
-        #=======================================================================
-                
-        #1. Find out_format selected
-        out_format_obj = mimetype.browse(cr, uid, [int(data['form']['out_format'])], context)[0]
-
-        #2. Check out_format and set report_name for each format
-        if out_format_obj.code == 'oo-pdf':
-            report_name = 'account_sale_report' 
-        
-        # If there not exist name, it's because not exist a record for this format   
-        if report_name == '':
-            raise osv.except_osv(_('Error !'), _('There is no template defined for the selected format. Check if aeroo report exist.'))
-                
-        else:
-            #Search record that match with the name, and get some extra information
-            report_xml_id = report_obj.search(cr, uid, [('report_name','=', report_name)],context=context)
-            report_xml = report_obj.browse(cr, uid, report_xml_id, context=context)[0]
-            data.update({'model': report_xml.model, 'report_type':'aeroo', 'id': report_xml.id})
-            
-            #Write out_format choose in wizard
-            report_xml.write({'out_format': out_format_obj.id}, context=context)
-           
-            return {
-                'type': 'ir.actions.report.xml',
-                'report_name': report_name,
-                'datas': data,
-                'context':context
-            }
-            
-    def check_report(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-        
-        data = {}
-        data['form'] = self.read(cr, uid, ids, ['date_from','date_to','type','origin','currency_id','user_id','partner_id','product_ids','category_ids','out_format'], context=context)[0]
-        #Extract ids for m2o and m2m fields
-        for field in ['currency_id', 'user_id', 'partner_id', 'product_ids','category_ids']:
-            if isinstance(data['form'][field], tuple):
-                data['form'][field] = data['form'][field][0]
-        
-        #Check if the fields exist, otherwise put false in the field.
-        used_context = self._build_contexts(cr, uid, ids, data, context=context)
-        data['form']['used_context'] = used_context
-        
-        return self._print_report(cr, uid, ids, data, context=context)
+#     def _print_report(self, cr, uid, ids, data, context=None):
+#         mimetype = self.pool.get('report.mimetypes')
+#         report_obj = self.pool.get('ir.actions.report.xml')
+#         report_name = ''
+#       
+#         context = context or {}
+#             
+#         #=======================================================================
+#         # onchange_in_format method changes variable out_format depending of 
+#         # which in_format is choose. 
+#         # If out_format is pdf -> call record in odt format 
+#         #
+#         # If mimetype is PDF -> out_format = PDF (search odt record)
+#         # If record doesn't exist, return a error.
+#         #=======================================================================
+#                 
+#         #1. Find out_format selected
+#         out_format_obj = mimetype.browse(cr, uid, [int(data['form']['out_format'])], context)[0]
+# 
+#         #2. Check out_format and set report_name for each format
+#         if out_format_obj.code == 'oo-pdf':
+#             report_name = 'account_sale_report' 
+#         
+#         # If there not exist name, it's because not exist a record for this format   
+#         if report_name == '':
+#             raise osv.except_osv(_('Error !'), _('There is no template defined for the selected format. Check if aeroo report exist.'))
+#                 
+#         else:
+#             #Search record that match with the name, and get some extra information
+#             report_xml_id = report_obj.search(cr, uid, [('report_name','=', report_name)],context=context)
+#             report_xml = report_obj.browse(cr, uid, report_xml_id, context=context)[0]
+#             data.update({'model': report_xml.model, 'report_type':'aeroo', 'id': report_xml.id})
+#             
+#             #Write out_format choose in wizard
+#             report_xml.write({'out_format': out_format_obj.id}, context=context)
+#            
+#             return {
+#                 'type': 'ir.actions.report.xml',
+#                 'report_name': report_name,
+#                 'datas': data,
+#                 'context':context
+#             }
+#             
+#     def check_report(self, cr, uid, ids, context=None):
+#         if context is None:
+#             context = {}
+#         
+#         data = {}
+#         data['form'] = self.read(cr, uid, ids, ['date_from','date_to','type','origin','currency_id','user_id','partner_id','product_ids','category_ids','out_format'], context=context)[0]
+#         #Extract ids for m2o and m2m fields
+#         for field in ['currency_id', 'user_id', 'partner_id', 'product_ids','category_ids']:
+#             if isinstance(data['form'][field], tuple):
+#                 data['form'][field] = data['form'][field][0]
+#         
+#         #Check if the fields exist, otherwise put false in the field.
+#         used_context = self._build_contexts(cr, uid, ids, data, context=context)
+#         data['form']['used_context'] = used_context
+#         
+#         return self._print_report(cr, uid, ids, data, context=context)
