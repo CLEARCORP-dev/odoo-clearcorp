@@ -23,9 +23,18 @@
 from openerp.osv import fields, osv
 
 class ProductInvoiceReport(osv.osv_memory):
-    _name = "product.invoice.report.wiz"
-    _description = "Product Invoice Report Wizard"
-    
+    _name = "invoice.report.wiz"
+      
+    _columns = {
+         'sortby':fields.selection([('sort_date', 'Sort Date'), ('sort_period','Sort Period'), ('sort_partner','Sort Partner'),('sort_product','Sort Product'),('sort_product_category','Sort Product Category')], string="Sort by"),
+         'filter':fields.selection([('filter_no', 'No'), ('filter_date','Date'), ('filter_period','Period')], string="Filter"),
+         'date_from': fields.date(string="Start Date"),
+         'date_to': fields.date(string="End Date"),
+         'fiscalyear_id':fields.many2one('account.fiscalyear',string="Fiscal Year"),
+         'period_to': fields.many2one('account.period',string="End Period"),
+         'period_from': fields.many2one('account.period',string="Start Period"),
+         'partner_ids': fields.many2many('res.partner',string="Customer")   
+        }  
     #This method filter list of products depends of origin. 
     #def onchange_origin(self, cr, uid, ids, origin, context=None):
     #    if origin:
@@ -64,17 +73,8 @@ class ProductInvoiceReport(osv.osv_memory):
                    return False
         return True
     
-    _columns = {
-        'sortby':fields.selection([('sort_date', 'Sort Date'), ('sort_period','Sort Period'), ('sort_partner','Sort Partner'),('sort_product','Sort Product'),('sort_product_category','Sort Product Category')], string="Sort by"),
-        'filter':fields.selection([('filter_no', 'No'), ('filter_date','Date'), ('filter_period','Period')], string="Filter"),
-        'date_from': fields.date(string="Start Date"),
-        'date_to': fields.date(strin="End Date"),
-        'fiscalyear_id':fields.many2one('account.fiscalyear'),
-        'period_to': fields.many2one('account.period',string="End Period"),
-        'period_from': fields.many2one('account.period',string="Start Period"),
-        'partner_ids': fields.many2many('res.partner',string="Customer")   
-       }
-        
+    
+            
     _constraints = [
         (_check_filter_date,'Start Date must be less than End Date ',['date_from','date_to']
          ),

@@ -30,11 +30,12 @@ This module permits print the product invoice report.
     'author': 'CLEARCORP S.A.',
     'category': 'Sales Management',
     'website': "http://clearcorp.co.cr",
-    'depends': [
+    'depends': ['account','base'
                 ],
     'data': [
              'wizard/product_invoice_report_wizard.xml',
-                          ],
+             'product_invoice_report_menu.xml'
+                     ],
     'active': False,
     'installable': True,
     'license': 'AGPL-3',
