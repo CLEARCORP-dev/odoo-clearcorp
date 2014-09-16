@@ -19,5 +19,23 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-import wizard,report
+{
+    'name': 'Product Category Code',
+    'description': """ 
+Product Category Code
+=======================
+This module permits encode  categories and subcategories of product and service.
+    """,
+    'version': '1.0',
+    'author': 'CLEARCORP S.A.',
+    'category': 'Product Category',
+    'website': "http://clearcorp.co.cr",
+    'depends': ['product'
+                ],
+    'data': [
+            'view/product_category_code.xml' 
+                     ],
+    'active': False,
+    'installable': True,
+    'license': 'AGPL-3',
+}

@@ -20,4 +20,4 @@
 #
 ##############################################################################
 
-import wizard,report
+import product_category_code
