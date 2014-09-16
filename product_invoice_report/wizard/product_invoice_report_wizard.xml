@@ -19,9 +19,9 @@
                  		<field name="partner_ids"/>
                  	</group>
                     <footer>
-                        <button type="object" string="Go Report" icon="gtk-ok" class="oe_highlight" />
+                        <button type="object" name="action_validate" string="Go Report" icon="gtk-ok" class="oe_highlight" />
                             or
-                        <button type="special" special="cancel" string="Cancel" class="oe_link" />
+                        <button type="special"  special="cancel" string="Cancel" class="oe_link" />
                     </footer>
                 </form>
             </field>

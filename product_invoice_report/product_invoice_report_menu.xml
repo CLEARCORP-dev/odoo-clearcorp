@@ -2,7 +2,7 @@
 <openerp>
     <data>            
         <menuitem icon="STOCK_PRINT"
-            name="Product Invoice Report"
+            name="Products Invoices Report"
             action="action_product_invoice_report_wizard"
             id="menu_product_invoice_report_wizard"
             sequence="100"

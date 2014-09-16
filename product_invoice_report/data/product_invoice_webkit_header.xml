@@ -34,6 +34,7 @@
 			</field>
             <field name="orientation">Landscape</field>
             <field name="format">A4</field>
+            <field eval="30.0" name="margin_left"/>
             <field name="html"><![CDATA[
 				<html>
 				    <head>
@@ -62,7 +63,6 @@
 				        </table> ${_debug or ''|n} </body>
 				</html>]]>
             </field>
-            <field eval="0.0" name="margin_top"/>
             <field name="css"><![CDATA[
 
 				body, table, td, span, div {
@@ -71,6 +71,7 @@
 				
 				.act_as_table {
 				    display: table;
+				    
 				}
 				.act_as_row  {
 				    display: table-row;
@@ -96,7 +97,7 @@
 				
 				.list_table, .data_table {
 				    width: 1080px;
-				    table-layout: fixed
+				    table-layout: fixed;
 				}
 				
 				.bg, .act_as_row.labels {
@@ -244,19 +245,37 @@
             </field>
 
             <field name="css"><![CDATA[
-
-				body, table, td, span, div {
+				
+				body{
+				 font-family: Helvetica, Arial; 
+				 color: black; 
+				 margin: 0; padding: 0; background-color: white; 
+				 width: 1100px; 
+				 height: 25px;
+				}
+				
+				table, td, span, div {
 				    font-family: Helvetica, Arial;
+				    
 				}
 				
 				.act_as_table {
 				    display: table;
+				    width: 100%; 
+				    table-layout: auto; 
+				    border-collapse: collapse; 
+				    text-align: left; 
+				    font-size: 12px;
 				}
 				.act_as_row  {
 				    display: table-row;
 				}
 				.act_as_cell {
 				    display: table-cell;
+				     padding-right: 3px; 
+				     padding-left: 3px; 
+				     padding-top: 4px; 
+				     padding-bottom: 4px;
 				}
 				.act_as_thead {
 				    display: table-header-group;
@@ -266,6 +285,7 @@
 				}
 				.act_as_tfoot {
 				    display: table-footer-group;
+				    page-break-after: avoid;
 				}
 				.act_as_caption {
 				    display: table-caption;
@@ -275,8 +295,9 @@
 				}
 				
 				.list_table, .data_table {
-				    width: 800px;
-				    table-layout: fixed
+				   
+				    table-layout: fixed;
+				    align="center"
 				}
 				
 				.bg, .act_as_row.labels {

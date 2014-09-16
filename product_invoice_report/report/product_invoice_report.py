@@ -217,7 +217,7 @@ class product_invoice_report(report_sxw.rml_parse):
 report_sxw.report_sxw('report.product_invoice_report', 
         'account.invoice.line',
         'addons/product_invoice_report/report/products_invoices_report.mako',
-        parser=product_invoice_report, header="external")
+        parser=product_invoice_report,header="external")
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

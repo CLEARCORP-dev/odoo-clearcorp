@@ -1,0 +1,230 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* product_invoice_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-09-16 17:15+0000\n"
+"PO-Revision-Date: 2014-09-16 17:15+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: product_invoice_report
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:45
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:48
+msgid "To:"
+msgstr "A"
+
+#. module: product_invoice_report
+#: code:addons/product_invoice_report/report/product_invoice_report.py:39
+#, python-format
+msgid "Products Invoices"
+msgstr "Productos Facturados"
+
+#. module: product_invoice_report
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:64
+msgid "No"
+msgstr ""
+
+#. module: product_invoice_report
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:40
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:42
+msgid "No apply"
+msgstr "No aplica"
+
+#. module: product_invoice_report
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:56
+#: selection:invoice.report.wiz,filter:0
+#: selection:invoice.report.wiz,sortby:0
+msgid "Period"
+msgstr "Periodo"
+
+#. module: product_invoice_report
+#: constraint:invoice.report.wiz:0
+msgid "Start Date must be less than End Date "
+msgstr "Fecha de inicio debe ser menor a fecha de finalización"
+
+#. module: product_invoice_report
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:54
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:75
+msgid "Date Invoice"
+msgstr "Fecha"
+
+#. module: product_invoice_report
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:62
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:85
+#: selection:invoice.report.wiz,sortby:0
+msgid "Product"
+msgstr "Producto"
+
+#. module: product_invoice_report
+#: selection:invoice.report.wiz,sortby:0
+msgid "Product Category"
+msgstr "Categoría de Producto"
+
+#. module: product_invoice_report
+#: selection:invoice.report.wiz,filter:0
+msgid "No Filter"
+msgstr "No filtro"
+
+#. module: product_invoice_report
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:29
+msgid "Group By"
+msgstr "Agrupado por"
+
+#. module: product_invoice_report
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:89
+msgid "Discount"
+msgstr "Descuento"
+
+#. module: product_invoice_report
+#: selection:invoice.report.wiz,filter:0
+#: selection:invoice.report.wiz,sortby:0
+msgid "Date"
+msgstr "Fecha"
+
+#. module: product_invoice_report
+#: model:ir.actions.report.xml,name:product_invoice_report.Courses_Student_Report
+msgid "Products Invoices Reports"
+msgstr "Reporte de productos facturados"
+
+#. module: product_invoice_report
+#: view:invoice.report.wiz:0
+msgid "Report Options"
+msgstr "Opciones de reporte"
+
+#. module: product_invoice_report
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:34
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:37
+msgid "From:"
+msgstr "Desde"
+
+#. module: product_invoice_report
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:58
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:79
+#: field:invoice.report.wiz,partner_ids:0
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: product_invoice_report
+#: field:invoice.report.wiz,date_to:0
+msgid "End Date"
+msgstr "Fecha Final"
+
+#. module: product_invoice_report
+#: field:invoice.report.wiz,period_from:0
+msgid "Start Period"
+msgstr "Periodo Inicial"
+
+#. module: product_invoice_report
+#: model:ir.model,name:product_invoice_report.model_invoice_report_wiz
+msgid "invoice.report.wiz"
+msgstr ""
+
+#. module: product_invoice_report
+#: field:invoice.report.wiz,period_to:0
+msgid "End Period"
+msgstr "Periodo Final"
+
+#. module: product_invoice_report
+#: constraint:invoice.report.wiz:0
+msgid "Start Period must be less than End Period"
+msgstr "Periodo inicial debe ser menor a periodo final"
+
+#. module: product_invoice_report
+#: field:invoice.report.wiz,fiscalyear_id:0
+msgid "Fiscal Year"
+msgstr "Año Fiscal"
+
+#. module: product_invoice_report
+#: model:ir.actions.act_window,name:product_invoice_report.action_product_invoice_report_wizard
+msgid "Product Invoice Report Wizard"
+msgstr "Asistente de productos facturados"
+
+#. module: product_invoice_report
+#: view:invoice.report.wiz:0
+msgid "Go Report"
+msgstr "Generar reporte"
+
+#. module: product_invoice_report
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:88
+msgid "Price Unit"
+msgstr "Precio Unitario"
+
+#. module: product_invoice_report
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:87
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: product_invoice_report
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:24
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:26
+#: field:invoice.report.wiz,filter:0
+msgid "Filter"
+msgstr "Filtro"
+
+#. module: product_invoice_report
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:22
+msgid "Periods Filter"
+msgstr "Periodo"
+
+#. module: product_invoice_report
+#: view:invoice.report.wiz:0
+msgid "or"
+msgstr "o"
+
+#. module: product_invoice_report
+#: field:invoice.report.wiz,sortby:0
+msgid "Sort by"
+msgstr "Agrupar por"
+
+#. module: product_invoice_report
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:60
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:82
+msgid "Category Product"
+msgstr "Categoria de producto"
+
+#. module: product_invoice_report
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:20
+msgid "Dates Filter"
+msgstr "Fecha"
+
+#. module: product_invoice_report
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:77
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: product_invoice_report
+#: view:invoice.report.wiz:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: product_invoice_report
+#: selection:invoice.report.wiz,sortby:0
+msgid "Partner"
+msgstr "Cliente"
+
+#. module: product_invoice_report
+#: field:invoice.report.wiz,date_from:0
+msgid "Start Date"
+msgstr "Fecha de inicio"
+
+#. module: product_invoice_report
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:90
+msgid "Total"
+msgstr "Total"
+
+#. module: product_invoice_report
+#: code:addons/product_invoice_report/report/product_invoice_report.py:46
+#: report:addons/product_invoice_report/report/products_invoices_report.mako:15
+#: model:ir.ui.menu,name:product_invoice_report.menu_product_invoice_report_wizard
+#, python-format
+msgid "Products Invoices Report"
+msgstr "Productos Facturados"
+

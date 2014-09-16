@@ -2,21 +2,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
 		<style type="text/css">
-        	.overflow_ellipsis {
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
+      		${css}
         }
-        ${css}
+  
     </style>
 	</head>
-    <body> 
+    <body > 
 		<%setLang(user.lang)%>
 		<%get_groups_report = get_group_lines(data)%>
+		<div align="center"><img  src="data:image/jpeg;base64,${company.logo}" /></div>
 		<div style="font-size: 20px; font-weight: bold; text-align: center;"> ${company.partner_id.name}</div>
-        <div style="font-size: 25px; font-weight: bold; text-align: center;"> ${_('Products Invoices Report')}</div>
-    	<div class="act_as_table data_table">
-        	<div class="act_as_row labels">
+        <div style="font-size: 25px; font-weight: bold; text-align: center;"> ${_('Productos Facturados')}</div><br><br>
+    	<div class="act_as_table data_table" >
+        	<div class="act_as_row labels" style="font-size: 14px; font-weight: bold; text-align: center;">
             	<div class="act_as_cell">
                             %if get_filter(data) == 'filter_date':
                                 ${_('Dates Filter')}
@@ -30,7 +28,7 @@
             	</div>
             	<div class="act_as_cell">${_('Group By')}</div>
         	</div>
-        	<div class="act_as_row">
+        	<div class="act_as_row" style="font-size: 14px; font-weight: normal; text-align: center;">
         		<div class="act_as_cell">
                             %if get_filter(data) == 'filter_date':
                                 ${_('From:')}
@@ -69,10 +67,10 @@
         	</div>
     	</div>	
 
-    	<div class="" style="margin-top: 20px; font-size: 14px; width: 1080px;"></div>      
+    	<div class="" style="margin-top: 20px; font-size: 15px; width: 1080px;"></div>      
     		<div class="act_as_table list_table" style="">
         		<div class="act_as_thead" style="vertical-align: right;">
-            		<div class="act_as_row labels" style="font-weight: bold; text-align:left;font-size: 13px;">
+            		<div class="act_as_row labels" style="font-weight: bold; text-align:left;font-size: 14px;">
                     	 %if get_sort(data) != 'sort_date':
                     	<div class="act_as_cell" style="width:8%;">${_('Date Invoice')}</div>
                     	%endif                
@@ -98,7 +96,7 @@
     		<%quantity,subtotal = get_quantities_group(group,data)%>  
     		<div class="act_as_table list_table" style="">
         		<div class="act_as_thead" style="vertical-align: right;">
-            		<div class="act_as_row labels" style="font-weight: bold; text-align:left;font-size: 12px;">
+            		<div class="act_as_row labels" style="font-weight: bold; text-align:left;font-size: 13px;">
                     	 %if get_sort(data) == 'sort_date':
                     	 <div class="act_as_cell">${group[0]['date_invoice'] or ''}</div>
                     	 %elif get_sort(data) == 'sort_period':
@@ -117,7 +115,7 @@
 			<div class="act_as_table list_table" style="">
         	%for line in group:
         		<div class="act_as_tbody" style="vertical-align: right;">
-            		<div class="act_as_row lines" style="font-weight:normal; text-align:left;font-size: 12px;">
+            		<div class="act_as_row lines" style="font-weight:normal; text-align:left;font-size: 13px;">
                     	%if get_sort(data) != 'sort_date':
                     	<div class="act_as_cell" style="width:8%;">${line['date_invoice'] or ''}</div>   
                     	%endif                
@@ -138,7 +136,7 @@
 					</div>
 				</div>
 			%endfor
-				<div class="act_as_row lines" style="font-weight: bold;font-size: 12px">
+				<div class="act_as_row lines" style="font-weight: bold;font-size: 13px">
             			%if get_sort(data) != 'sort_date':
                     	<div class="act_as_cell"></div> 
                     	%endif                

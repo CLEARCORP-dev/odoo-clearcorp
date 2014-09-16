@@ -30,10 +30,12 @@ This module permits print the product invoice report.
     'author': 'CLEARCORP S.A.',
     'category': 'Sales Management',
     'website': "http://clearcorp.co.cr",
-    'depends': ['account','base'
+    'depends': ['account','report_webkit_lib'
                 ],
     'data': [
              'wizard/product_invoice_report_wizard.xml',
+             'data/product_invoice_webkit_header.xml',
+             'report/product_invoice_report.xml',
              'product_invoice_report_menu.xml'
                      ],
     'active': False,
