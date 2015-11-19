@@ -568,6 +568,9 @@ class Task(osv.Model):
                      'Please check if you selected an invalid task.', ['Previous Tasks', 'Next Tasks']),
                     ]
     
+class productBacklog(osv.Model): 
+    _name = 'ccorp.project.scrum.product.backlog'
+    
 class releaseBacklog(osv.Model):
     
     _name = 'ccorp.project.scrum.release.backlog'
