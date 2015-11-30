@@ -67,6 +67,9 @@ class Feature(osv.Model):
     _inherit = 'project.scrum.feature'
     
     _columns = {
+                'state':fields.selection([('draft', 'New'), ('open', 'In Progress'), 
+                             ('cancelled', 'Cancelled'), ('done', 'Done'), ('quote_pending', 'Quote Pending'),('quoted', 'Quoted')],
+                             'Status', required=True),
                 'hour_ids': fields.one2many('project.scrum.feature.hours', 'feature_id', string='Feature Hours'),
                 }
     

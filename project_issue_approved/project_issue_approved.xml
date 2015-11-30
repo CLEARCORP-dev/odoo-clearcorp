@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+<data>
+    
+    
+          <record model="ir.ui.view" id="project_issue_form_view_invoice">
+            <field name="name">Project Issue Tracker Form</field>
+            <field name="model">project.issue</field>
+            <field name="inherit_id" ref="project_issue.project_issue_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@string='Extra Info']" position="before">
+                    <page string="Approvals" name="prepaycontracts">
+                        <group>
+                            <span>Approval 1</span>
+                            <button name="" string="Approve"/>
+                            <span>Estado</span>
+                        </group>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Sin Bolsa</th>
+                                    <th>Bolsa 1</th>
+                                    <th>Bolsa 2</th>
+                               </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Horas Bolsa</td>
+                                    <td>-</td>
+                                    <td>10</td>
+                                    <td>20</td>
+                                </tr>
+                                <tr>
+                                    <td>Horas Consumidas</td>
+                                    <td>-</td>
+                                    <td>8</td>
+                                    <td>15</td>
+                                </tr>
+                                <tr>
+                                    <td>Horas Restantes</td>
+                                    <td>-</td>
+                                    <td>2</td>
+                                    <td>5</td>
+                                </tr>
+                               </br></br>
+                                <tr>
+                                    <td>Horas por aprobar</td>
+                                    <td>14</td>
+                                    <td>12</td>
+                                    <td>5</td>
+                                </tr>
+                                <tr>
+                                    <td>Horas requeridas
+                                        <ul>
+                                            <li>Analisis Funcional remoto</li>
+                                            <li>Desarrollo remoto</li>
+                                            <li>Desarrollo Extra remoto</li>
+                                            <li>Analisis tecnico remoto</li>
+                                        </ul>
+                                    </td>
+                                    <td>7
+                                        <ul>
+                                            <li>2</li>
+                                            <li>2</li>
+                                            <li>2</li>
+                                            <li>1</li>
+                                        </ul>
+                                    </td>
+                                    <td>4
+                                        <ul>
+                                            <li>1</li>
+                                            <li>1</li>
+                                            <li>1</li>
+                                            <li>1</li>
+                                        </ul>  
+                                    </td>
+                                    <td>5
+                                        <ul>
+                                            <li>1</li>
+                                            <li>2</li>
+                                            <li>1</li>
+                                            <li>1</li>
+                                        </ul>
+                                   </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        
+</data>
+</openerp>

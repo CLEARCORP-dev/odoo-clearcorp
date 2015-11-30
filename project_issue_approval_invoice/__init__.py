@@ -19,18 +19,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-from openerp import models, fields, api, _
-    
-class project_issue(models.Model):
-    
-    _inherit = 'project.issue'
-    
-    task_ids = fields.Many2many('project.task', string='Tasks')
-    feature_id = fields.Many2one('project.scrum.feature')
-    
-class project_task(models.Model):
-    
-    _inherit = 'project.task'
-    
-    tickets_ids = fields.Many2many('project.issue', string='Tickets')
+import project_issue_approval_invoice

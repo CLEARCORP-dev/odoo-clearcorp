@@ -20,17 +20,19 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
-    
-class project_issue(models.Model):
-    
-    _inherit = 'project.issue'
-    
-    task_ids = fields.Many2many('project.task', string='Tasks')
-    feature_id = fields.Many2one('project.scrum.feature')
-    
-class project_task(models.Model):
-    
-    _inherit = 'project.task'
-    
-    tickets_ids = fields.Many2many('project.issue', string='Tickets')
+{
+    "name" : 'Project issue approved',
+    "version" : '1.0',
+    "author" : 'ClearCorp',
+    'complexity': 'easy',
+    "description": """""",
+    'category': 'Project Management',
+    'sequence': 4,
+    'website' : 'http://clearcorp.co.cr',
+    'depends' : ['base','project_prepaid_hours'],
+    'data' : ['project_issue_approved.xml'],
+    'auto_install': False,
+    'application': False,
+    'installable': True,
+    'license': 'AGPL-3',
+}

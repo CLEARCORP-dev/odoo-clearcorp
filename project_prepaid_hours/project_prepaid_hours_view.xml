@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+<data>
+
+
+<!-- account.analytic.account -->
+        <!-- Form -->
+        <record id="analytic_analytic_account_form2" model="ir.ui.view">
+            <field name="name">Invoice</field>
+            <field name="model">account.analytic.account</field>
+            <field name="priority" eval="160" />
+            <field name="inherit_id"
+                ref="project_work_type.analytic_analytic_account_form2" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@string='Invoice Configuration']"
+                    position="replace">
+                    <page string="Invoice Configuration">
+                        <div>
+                            <label for="invoice_type_id" string="Invoice Type" class="oe_inline" />
+                            <field name="invoice_type_id" string="Invoice Type" class="oe_inline">
+                                <tree editable="bottom">
+                                    <field name="name" />
+                                    <field name="product_price"/>
+                                    <field name="product_id"/>
+                                    <field name="price"
+                                        attrs="{'readonly': [('product_price','=',True)]}" />
+                                   <field name="acc_analytic_qty_grp_id"/>
+                                </tree>
+                            </field>
+                        </div>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="analytic_analytic_account_form3" model="ir.ui.view">
+            <field name="name">Hours groups</field>
+            <field name="model">account.analytic.account</field>
+            <field name="priority" eval="160" />
+            <field name="inherit_id"
+                ref="analytic.view_account_analytic_account_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/notebook/page[@name='contract_page']" position="after">
+                    <page string="Hours Groups" name="hours_group">
+                        <field name="acc_analytic_qty_grp_ids">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="quatity"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+           </field>
+       </record>
+
+      
+        
+</data>
+</openerp>
