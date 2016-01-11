@@ -67,12 +67,9 @@ class Feature(osv.Model):
     _inherit = 'project.scrum.feature'
     
     _columns = {
-                'state':fields.selection([('draft', 'New'), ('open', 'In Progress'), 
-                             ('cancelled', 'Cancelled'), ('done', 'Done'), ('quote_pending', 'Quote Pending'),('quoted', 'Quoted')],
-                             'Status', required=True),
                 'hour_ids': fields.one2many('project.scrum.feature.hours', 'feature_id', string='Feature Hours'),
                 }
-    
+
     def create_tasks(self, cr, uid, context):
         active_ids = context.get('active_ids', [])
         feature_obj = self.pool.get('project.scrum.feature')

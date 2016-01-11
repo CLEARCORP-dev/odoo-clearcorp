@@ -28,7 +28,7 @@
     'summary': 'Project Issue',
     'author': 'ClearCorp',
     'website': 'http://clearcorp.cr',
-    'depends': ['project_issue'],
+    'depends': ['project_issue','project_scrum_method'],
     'data': ['project_issue_multi_task_view.xml'], 
     'test' : [],
     'demo': [],

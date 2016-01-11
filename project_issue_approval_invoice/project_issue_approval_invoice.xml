@@ -13,8 +13,6 @@
                 <xpath expr="//div/button[@name='recurring_create_invoice']" 
                        position="after">
                        <div>
-                            <label for="currency_invoice" string="Invoice currency" attrs="{'invisible': [('recurring_invoices','!=',True)]}"/> 
-                            <field name="currency_invoice" attrs="{'invisible': [('recurring_invoices','!=',True)]}" class="oe_inline"/>
                             <label for="journal_invoice" string="Invoice Journal" attrs="{'invisible': [('recurring_invoices','!=',True)]}"/>
                             <field name="journal_invoice"  attrs="{'invisible': [('recurring_invoices','!=',True)]}" class="oe_inline"/>
                        </div>

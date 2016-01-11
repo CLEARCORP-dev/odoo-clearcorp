@@ -28,9 +28,3 @@ class project_issue_type(models.Model):
     _inherit = 'project.task.type'
     
     type= fields.Selection([('task','Task'),('issue','Issue'),('both','Both')], 'Stage type', required=True)
-    
-
-    
-
-
-        

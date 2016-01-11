@@ -24,30 +24,31 @@ from openerp import models, fields, api
 from datetime import date
 import datetime
 
+
 class account_analitic_account(models.Model):
 
     _inherit = 'account.analytic.account'
-    
-    currency_invoice = fields.Many2one('res.currency')
+
     journal_invoice = fields.Many2one('account.journal')
-    
+
     def get_product(self, work_type):
-            product = self.invoice_type_id.search([('name','=',work_type)])
+            product = self.invoice_type_id.search([('name', '=' , work_type)])
             return product.product_id.id
-        
+
     def get_product_price(self, work_type):
-            product_price= self.invoice_type_id.search([('name','=',work_type),('product_price','=', True)])
+            product_price= self.invoice_type_id.search([('name','=',work_type),
+                           ('product_price','=', True)])
             return product_price.product_price
-        
+
     def get_price_hour(self, work_type):
             price_hour= self.invoice_type_id.search([('name','=',work_type)])
             return price_hour.price
-        
+
     def get_contract_price(self, work_type, hours):
         cost= self.invoice_type_id.search([('name','=',work_type)])
         cost= cost.price * hours
         return cost
-    
+
     @api.multi
     def action_invoice_lines_approvals_create(self, invoice_id, account_invoice_id, account_analytic_id):
         invoice_line_obj = self.env['account.invoice.line']
@@ -63,21 +64,21 @@ class account_analitic_account(models.Model):
                                         'quantity': line.extra_hours,
                                         'price_unit': line.extra_amount / line.extra_hours,
                                         'price_subtotal': line.extra_amount,
-                                        }                       
+                                        }
                     invoice_line_create_id = invoice_line_obj.create(invoice_line_vals)
             return True
 
-    
     @api.multi
-    def action_invoice_create_lines(self,invoice_create_id, account_invoice_id, account_analytic_id):
+    def action_invoice_create_lines(self, invoice_create_id,
+                                    account_invoice_id, account_analytic_id):
         invoice_line_obj = self.env['account.invoice.line']
         for line_invoice in account_analytic_id.recurring_invoice_line_ids:
-            invoice_line_vals={
+            invoice_line_vals = {
                               'invoice_id': invoice_create_id,
                               'product_id': line_invoice.product_id.id,
                               'name': line_invoice.name,
                               'account_id': account_invoice_id,
-                              'account_analytic_id': account_analytic_id.id ,
+                              'account_analytic_id': account_analytic_id.id,
                               'quantity': line_invoice.quantity,
                               'uom_id': line_invoice.uom_id.id,
                               'price_unit': line_invoice.price_unit,
@@ -85,7 +86,7 @@ class account_analitic_account(models.Model):
                               }
             invoice_line_create_id = invoice_line_obj.create(invoice_line_vals)
             return True
-    
+
     @api.multi
     def action_invoice_create(self):
         today=date.today().strftime('%Y-%m-%d')
@@ -117,7 +118,7 @@ class account_analitic_account(models.Model):
                         new_date = next_date+relativedelta(years=+interval)
                         account.write({'recurring_next_date': new_date.strftime('%Y-%m-%d')})
         return True
-    
+
     @api.model
     def action_invoice_create_api7(self):
         self.action_invoice_create()
