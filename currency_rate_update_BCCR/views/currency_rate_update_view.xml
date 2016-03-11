@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+         <record  id="currency_rate_update_inherit" model="ir.ui.view">
+            <field name="name">currency.rate.update.inherit</field>
+            <field name="model">currency.rate.update.service</field>
+            <field name="inherit_id" ref="currency_rate_update.currency_rate_update_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/group/group/field[@name='max_delta_days']" position="after">
+                    <field name="code_rate"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
