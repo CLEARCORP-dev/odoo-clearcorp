@@ -145,18 +145,23 @@ class Task(osv.Model):
             res[task.id] = remaining
         return res
 
-    def _check_remaining_hours(self, cr, uid, ids, context=None):
-        for task in self.browse(cr, uid, ids, context=context):
-            if task.remaining_hours < 0:
+    def _validate_planned_hours(self, cr, uid, ids, context=None):
+        for task in self.browse(cr, uid, ids, context):
+            if task.planned_hours == 0.0:
                 return False
             else:
                 return True
-        
+
     _columns = {
                 'feature_hour_ids': fields.related('feature_id', 'hour_ids', type='one2many',
                     relation='project.scrum.feature.hours', string='Feature Hours', readonly=True),
                 'remaining_hours': fields.function(_remaining_hours, type='float', string='Remaining Hour(s)', store=True),
                 }
+    _constraints = [
+        (_validate_planned_hours, 'Planned hours can\'t be zero',
+         ['planned_hours'])
+    ]
+
 
     def create(self, cr, uid, values, context=None):
         if 'project_id' in values:
@@ -194,14 +199,7 @@ class Task(osv.Model):
                             sum += task_hour.expected_hours
                     values['planned_hours'] = sum
             super(Task, self).write(cr, uid, task.id, values, context)
-            if task._check_remaining_hours():
-                return True
-            else:
-                raise osv.except_osv(
-                _('Error'),
-                _('Your time ivested in this task has exeded the planed time frame'))
-                
-
+        return True
 
     _defaults = {
         'state': 'draft',

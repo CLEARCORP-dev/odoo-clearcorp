@@ -20,7 +20,8 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
+from openerp import models, fields
+
 
 class project_issue(models.Model):
 
@@ -29,14 +30,16 @@ class project_issue(models.Model):
     task_ids = fields.Many2many('project.task', string='Tasks')
     feature_id = fields.Many2one('project.scrum.feature')
 
+
 class project_task(models.Model):
 
     _inherit = 'project.task'
-
     tickets_ids = fields.Many2many('project.issue', string='Tickets')
+
 
 class project_feature(models.Model):
 
     _inherit = 'project.scrum.feature'
 
-    tickets_ids = fields.One2many('project.issue', 'feature_id', string='Tickets')
+    tickets_ids = fields.One2many(
+        'project.issue', 'feature_id', string='Tickets')

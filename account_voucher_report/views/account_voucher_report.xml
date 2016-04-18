@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2016 ClearCorp
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+
+<openerp>
+    <data>
+        <template id="accountvoucher_report">
+            <div class="page">
+                <div class="row">
+                    <div class="col-xs-6">
+		              <span style="white-space: pre;"> </span>
+	                </div>
+	                <div class="col-xs-6">
+	                   <b>
+	                       <span t-field="o.date" t-field-options='{"format": "d"}'/>
+	                       <span>of</span>
+	                       <span t-field="o.date" t-field-options='{"format": "MMMM"}'/>
+	                       <span>of</span>
+	                       <span t-field="o.date" t-field-options='{"format": "y"}'/>
+                       </b>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-1">
+                        <span style="white-space: pre;"> </span>
+                    </div>
+                    <div class="col-xs-7">
+                    <b>
+                        <span style="white-space: pre;"> </span>
+                        <span style="text-transform:uppercase;" t-field="o.partner_id"/>
+                    </b>
+                    </div>
+                    <div class="col-xs-4">
+                        <b><span t-field="o.amount"/></b>
+                    </div>
+                </div>
+                <br></br>
+                <div class="row">
+                    <div class="col-xs-1">
+                        <span style="white-space: pre;"> </span>
+                    </div>
+                    <div class="col-xs-7">
+                        <b><span t-esc="get_text_amount(o.amount, o.currency_id.id, o.partner_id.lang)"/></b>
+                    </div>
+                    <div class="col-xs-4">
+                        <span style="white-space: pre;"> </span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-xs-6">
+                        <span style="white-space: pre;">  </span>
+                    </div>
+                    <div class="col-xs-6">
+                        <span style="white-space: pre;">  </span>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-xs-12" style="font-size: 10px">
+                        <table class="table table-condensed">
+                            <thead>
+	                            <tr>
+	                                <th class="text-center" style="border: 1px solid #000000">Journal Entry.</th>
+	                                <th class="text-center" style="border: 1px solid #000000">Fact Supplier</th>
+	                                <th class="text-center" style="border: 1px solid #000000">Debit</th>
+	                                <th class="text-center" style="border: 1px solid #000000">Credit</th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                           <tr t-foreach="o.move_ids" t-as="m">
+	                               <td class="text-left" style="border-bottom: 1px solid #000000">
+	                                   <b><span t-field="m.account_id"/></b>
+	                               </td>
+	                               <td class="text-center" style="border-bottom: 1px solid #000000">
+                                       <b><span t-field="m.ref"/></b>
+                                   </td>
+                                   <td class="text-center" style="border-bottom: 1px solid #000000">
+                                       <b><span t-field="m.debit"/></b>
+                                   </td>
+                                   <td class="text-center" style="border-bottom: 1px solid #000000">
+                                       <b><span t-field="m.credit"/></b>
+                                   </td>
+	                           </tr>
+	                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template id="report_account_voucher_chec">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'account_voucher_report.accountvoucher_report')"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>

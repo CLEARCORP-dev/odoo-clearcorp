@@ -81,9 +81,9 @@ class ProjectIssue(models.Model):
                     for issue in issues:
                         for backorder in issue.backorder_ids:
                             if backorder.picking_type_id.code=='outgoing':
-                                if backorder.state!='done':
+                                if backorder.state!='done' and backorder.state!='cancel':
                                     raise Warning(_('Pending transfer the backorder: %s' % backorder.name))
-                                elif not backorder.delivery_note_id:
+                                elif not backorder.delivery_note_id and backorder.state=='done':
                                     raise Warning(_('Pending generate delivery note for backorder: %s' % backorder.name))
                                 elif backorder.delivery_note_id.state=='draft':
                                     raise Warning(_('Pending confirm delivery note for backorder: %s' % backorder.name))
@@ -94,7 +94,15 @@ class ProjectIssue(models.Model):
                             if not invoice_line.invoice_id.state in ['open','paid']:
                                 raise Warning(_('Pending change status to open or paid of invoice supplier: %s' % invoice_line.invoice_id.supplier_invoice_number))
         return super(ProjectIssue, self).write(cr, uid, ids, vals, context)
-   
+    
+    @api.v7
+    def copy(self, cr, uid, id, default={}, context=None):
+        default.update({
+            'invoice_ids':False,
+            'invoice_sale_id':False,
+            'sale_order_id':False,
+        })
+        return super(ProjectIssue, self).copy(cr, uid, id, default, context)
     expense_line_ids=fields.One2many('hr.expense.line','issue_id')
     account_invoice_line_ids=fields.One2many('account.invoice.line','issue_id')
     sale_order_id=fields.Many2one('sale.order','Sale Order')
@@ -213,8 +221,6 @@ class HRExpenseLine(models.Model):
         account_obj=self.env['account.analytic.account']
         if self.issue_id:
             self.init_onchange_call=self.issue_id.analytic_account_id
-        else:
-            self.init_onchange_call=account_obj.search([('type','in',['normal','contract'])])
     @api.onchange('issue_id')
     def get_account(self):
         if self.issue_id.analytic_account_id:
@@ -232,8 +238,7 @@ class AccountInvoiceLine(models.Model):
         account_obj=self.env['account.analytic.account']
         if self.issue_id:
             self.init_onchange_call=self.issue_id.analytic_account_id
-        else:
-            self.init_onchange_call=account_obj.search([('type','in',['normal','contract'])])
+
     @api.onchange('issue_id')
     def get_account(self):
         if self.issue_id.analytic_account_id:
@@ -553,9 +558,9 @@ class ProjectTask(models.Model):
                     for task in tasks:
                         for backorder in task.backorder_ids:
                             if backorder.picking_type_id.code=='outgoing':
-                                if backorder.state!='done':
+                                if backorder.state!='done' and backorder.state!='cancel':
                                     raise Warning(_('Pending transfer the backorder: %s' % backorder.name))
-                                elif not backorder.delivery_note_id:
+                                elif not backorder.delivery_note_id and backorder.state=='done':
                                     raise Warning(_('Pending generate delivery note for backorder: %s' % backorder.name))
                                 elif backorder.delivery_note_id.state=='draft':
                                     raise Warning(_('Pending confirm delivery note for backorder: %s' % backorder.name))

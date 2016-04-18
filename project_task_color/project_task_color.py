@@ -1,11 +1,16 @@
-from openerp.osv import osv, fields
-from dateutil.relativedelta import relativedelta
+from openerp import models, fields, api
 from datetime import datetime
+import openerp.tools as tools
 
-class task(osv.Model):
+
+class task(models.Model):
     _inherit = 'project.task'
 
-    def _get_color_code(self, date_start, date_deadline, planned_hours, state):
+    @api.one
+    @api.depends('state',
+                 'date_deadline',
+                 'date_start')
+    def _get_color_code(self):
         """Calculate the current color code for the task depending on the state
         Colors:
         0 -> White          5 -> Aqua
@@ -14,56 +19,56 @@ class task(osv.Model):
         3 -> Orange         8 -> Purple
         4 -> Green          9 -> Pink
         @param self: The object pointer.
-        @param date_start: The string initial date
         @param date_deadline: The string dateline
         @param planned_hours: Total planned hours for the task
         @param state: The current task state
+        @param progress: The current task progress
         @return: An integer that represents the current task state as a color
         """
-        if state == 'done':
-            # Done task COLOR: GRAY
-            return '1'
-        else:
-            if date_deadline:
-                if date_start:
-                    if planned_hours:
-                        date_start = datetime.strptime(date_start, '%Y-%m-%d %H:%M:%S')
-                        date_deadline = datetime.strptime(date_deadline, '%Y-%m-%d')
-                        total_time_delta = relativedelta(date_deadline, date_start)
-                        left_hours_delta = relativedelta(date_deadline, datetime.today())
-                        total_time = (total_time_delta.days * 24) + total_time_delta.hours + (total_time_delta.minutes / 60)
-                        left_hours = (left_hours_delta.days * 24) + left_hours_delta.hours + (left_hours_delta.minutes / 60)
-                        percentage_left = float(left_hours) / float(total_time)
-                        if percentage_left >= 0.70:
-                            # COLOR: BLUE
-                            return '7'
-                        elif percentage_left >= 0.50:
-                            # COLOR: GREEN
-                            return '4'
-                        elif percentage_left >= 0.30:
-                            # COLOR: ORANGE
-                            return '3'
-                        else:
-                            # COLOR: RED
-                            return '2'
-                        # COLOR: PINK
-                        return '9'
-                    else:
-                        # Not planned hours available COLOR: PURPLE
-                        return '8'
-                else:
-                    # No date_start COLOR: AQUA
-                    return '6'
-            else:
-                # No deadline available COLOR: WHITE
-                return '0'
 
-    def _compute_color(self, cr, uid, ids, field_name, args, context={}):
-        res = {}
-        for task in self.browse(cr, uid, ids, context=context):
-            res[task.id] = self._get_color_code(task.date_start, task.date_deadline, task.planned_hours, task.state)
-        return res
-    
-    _columns = {
-        'color': fields.function(_compute_color, type='integer', string='Color Index'),
-        }
+        deadline = datetime.strptime(self.date_deadline,
+                                     tools.DEFAULT_SERVER_DATE_FORMAT)
+        date_start = datetime.strptime(self.date_start,
+                                       tools.DEFAULT_SERVER_DATETIME_FORMAT)
+        today = datetime.now()
+        time_diff = deadline - date_start
+        if time_diff.seconds:
+            total_days = time_diff.days + 1
+        else:
+            total_days = time_diff.days
+        time_diff = deadline - today
+        if time_diff.seconds:
+            total_disp = time_diff.days + 1
+        else:
+            total_disp = time_diff.days
+        try:
+            total_time = float(total_disp) / float(total_days)
+        except ZeroDivisionError:
+            total_time = 0.0
+        if self.state == 'done':
+            # Done task COLOR: GRAY
+            self.color = 1
+        elif self.state == 'cancel':
+            self.color = 8
+        else:
+            if total_time <= 0.2:
+                # COLOR: RED
+                self.color = 2
+            elif total_time > 0.2 and total_time <= 0.4:
+                # COLOR: ORANGE
+                self.color = 3
+            elif total_time > 0.4 and total_time <= 0.6:
+                # COLOR: BLUE
+                self.color = 7
+            elif total_time > 0.6 and total_time <= 0.8:
+                # COLOR: AQUA
+                self.color = 5
+            elif total_time > 0.8 and total_time <= 1.0:
+                # COLOR: GREEN
+                self.color = 4
+            else:
+                # COLOR: WHITE
+                self.color = 0
+
+    color = fields.Integer(compute='_get_color_code', string='Color Index',
+                           store=True)
