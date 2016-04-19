@@ -6,7 +6,7 @@
     "name": 'Project prepaid hours',
     "version": '8.0.1.0',
     "author": 'ClearCorp',
-    "description": """""",
+    "summary": """Prepaid hours""",
     'category': 'Project Management',
     'sequence': 10,
     'website': 'http://clearcorp.cr',
