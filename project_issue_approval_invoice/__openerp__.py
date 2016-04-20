@@ -3,8 +3,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
-    "name": 'Project issue approved invoice',
-    "version": '1.0',
+    "name": 'Project issue approval invoice',
+    "version": '8.0.1.0',
     "author": 'ClearCorp',
     "summary": """""",
     'category': 'Project Management',

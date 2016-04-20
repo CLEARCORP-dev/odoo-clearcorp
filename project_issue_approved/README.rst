@@ -2,9 +2,10 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-==============================
-Project issue approved invoice
-==============================
+
+======================
+Project issue approved
+======================
 
 This module was written to extend the functionality of project
 
