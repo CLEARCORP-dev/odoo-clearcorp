@@ -3,7 +3,7 @@
    :alt: License: AGPL-3
 
 ==============================
-Project issue approved invoice
+Project issue approval invoice
 ==============================
 
 This module was written to extend the functionality of project

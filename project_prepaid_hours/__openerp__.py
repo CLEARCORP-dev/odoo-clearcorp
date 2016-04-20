@@ -7,7 +7,7 @@
     "version": '8.0.1.0',
     "author": 'ClearCorp',
     "summary": """Prepaid hours""",
-    'category': 'Project Management',
+    'category': 'Projects',
     'sequence': 10,
     'website': 'http://clearcorp.cr',
     'depends': ['base', 'project_work_type', 'account_analytic_analysis'],

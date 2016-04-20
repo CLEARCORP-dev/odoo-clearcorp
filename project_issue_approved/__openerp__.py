@@ -6,8 +6,8 @@
     "name": 'Project issue approved',
     "version": '8.0.1.0',
     "author": 'ClearCorp',
-    "description": """""",
-    'category': 'Project Management',
+    "summary": """ Issue approved""",
+    'category': 'Projects',
     'sequence': 10,
     'auto_install': False,
     'application': False,
@@ -15,5 +15,5 @@
     'license': 'AGPL-3',
     'website': 'http://clearcorp.cr',
     'depends': ['base', 'project_prepaid_hours'],
-    'data': ['project_issue_approved.xml']
+    'data': ['views/project_issue_approved.xml']
 }
