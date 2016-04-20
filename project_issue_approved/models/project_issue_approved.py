@@ -49,10 +49,10 @@ class issue(models.Model):
                         approval_line.requested_hours
         remaining_time = prepaid_hours_id.quatity - used_time
         return {
-                'used_time': used_time,
-                'tobeapprove_time': tobeapprove_time,
-                'remaining_time': remaining_time,
-                }
+            'used_time': used_time,
+            'tobeapprove_time': tobeapprove_time,
+            'remaining_time': remaining_time,
+        }
 
     def _calculate_extra_amount(self):
         _type = self.feature_id
@@ -84,8 +84,8 @@ class issue(models.Model):
         for hour_type in self.feature_obj.hour_ids:
             _ana_acc = self.project_id.analytic_account_id
             prepaid_hours_id = _ana_acc.acc_analytic_qty_grp_ids.search(
-                    [('name', '=', hour_type.name)]
-                    )[0].acc_analytic_qty_grp_id.id
+                [('name', '=', hour_type.name)]
+                )[0].acc_analytic_qty_grp_id.id
             _approval_line_values = {
                 'prepaid_hours_id': prepaid_hours_id,
                 'approval_id': approval_id,
@@ -98,11 +98,11 @@ class issue(models.Model):
         today = date.today().strftime('%Y-%m-%d')
         _approval_obj = self.env['account.analytic.prepaid_hours_approval']
         _approval_values = {
-                         'ticket_id': self.id,
-                         'user_id': self.user_id.id,
-                         'date': today,
-                         'state': '2b_approved',
-                         }
+            'ticket_id': self.id,
+            'user_id': self.user_id.id,
+            'date': today,
+            'state': '2b_approved',
+        }
 
     @api.model
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False,

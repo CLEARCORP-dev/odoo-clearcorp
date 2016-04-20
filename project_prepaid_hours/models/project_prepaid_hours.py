@@ -72,8 +72,8 @@ class account_analytic_prepaid_hours_approval(models.Model):
         return approval_sequence + 1
 
     _defaults = {
-                'sequence': _get_sequence,
-                }
+        'sequence': _get_sequence,
+    }
 
 
 class account_analitic_account(models.Model):
@@ -94,10 +94,10 @@ class account_analitic_account(models.Model):
             for qty_qroup in acc_analytic_qty_grp_ids:
                 if qty_qroup.analitic_account_id.id == contract.id:
                     vals = {
-                          'date': today,
-                          'quatity': qty_qroup.quatity,
-                          'group_id': qty_qroup.id,
-                           }
+                        'date': today,
+                        'quatity': qty_qroup.quatity,
+                        'group_id': qty_qroup.id,
+                    }
                     prepaid_hours_assigment.create(vals)
         return True
 
