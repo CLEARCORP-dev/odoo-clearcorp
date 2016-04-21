@@ -29,7 +29,8 @@ class issue(models.Model):
     _inherit = 'project.issue'
 
     group_approved = fields.One2many(
-        'account.analytic.prepaid_hours_approval', 'ticket_id')
+        'account.analytic.prepaid_hours_approval', 'ticket_id',
+        string="Group approved")
 
     def _get_prepaid_hours(self):
         self.feature_id.work_type
@@ -47,7 +48,7 @@ class issue(models.Model):
                 if approval_line.approval_id.state == '2b_approved':
                     tobeapprove_time = tobeapprove_time +\
                         approval_line.requested_hours
-        remaining_time = prepaid_hours_id.quatity - used_time
+        remaining_time = prepaid_hours_id.quantity - used_time
         return {
             'used_time': used_time,
             'tobeapprove_time': tobeapprove_time,

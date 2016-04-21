@@ -7,12 +7,14 @@ from datetime import date
 
 
 class account_analytic_prepaid_hours (models.Model):
+    """Hours groups"""
     _name = 'account.analytic.prepaid_hours'
 
     name = fields.Char('Name', required=True)
-    quatity = fields.Float('Quantity', required=True)
+    quantity = fields.Float('Quantity', required=True)
     analitic_account_id = fields.Many2one(
         'account.analytic.account', string='Analytic Account')
+    # falta date
     active = fields.Boolean('Active', default=True)
 
 
@@ -20,7 +22,7 @@ class account_analytic_prepaid_hours_assigment (models.Model):
     _name = 'account.analytic.prepaid_hours.assigment'
 
     date = fields.Datetime('Date:', required=True)
-    quatity = fields.Float('Quantity', required=True)
+    quantity = fields.Float('Quantity', required=True)
     group_id = fields.Many2one('account.analytic.prepaid_hours', required=True)
 
 
@@ -52,28 +54,29 @@ class account_analytic_quantity_prepaid_hours_approval_line (models.Model):
 class account_analytic_prepaid_hours_approval(models.Model):
     _name = 'account.analytic.prepaid_hours_approval'
 
+    @api.model
+    def _default_sequence(self):
+        approval_sequence =\
+            self.env['account.analytic.prepaid_hours_approval'].search_count(
+                [('ticket_id', '=', self.id)])
+        return approval_sequence + 1
+
     ticket_id = fields.Many2one('project.issue', string='Ticket')
-    sequence = fields.Integer('sequence')
+    sequence = fields.Integer('sequence', default=_default_sequence)
     user_id = fields.Many2one('res.partner', string='User')
     date = fields.Date('Date')
     state = fields.Selection([('2b_approved', 'To approved'),
                               ('approved', 'Approved'),
                               ('rejected', 'Rejected')],
                              string='State', default='2b_approved')
+    approval_line_id = fields.Many2one(
+        'account.analytic.prepaid_hours_approval', string='Approval line')
     approval_line_ids = fields.One2many(
-        'account.analytic.prepaid_hours_approval', 'approval_line_ids')
+        'account.analytic.prepaid_hours_approval', 'approval_line_id',
+        string='Approval lines')
     approval_values = fields.One2many(
-        'account.analytic.prepaid_hours_approved_values', 'approval_id')
-
-    def _get_sequence(self):
-        approval_sequence =\
-            self.env['account.analytic.prepaid_hours_approval'].search_count(
-                [('ticket_id', '=', self.id)])
-        return approval_sequence + 1
-
-    _defaults = {
-        'sequence': _get_sequence,
-    }
+        'account.analytic.prepaid_hours_approved_values', 'approval_id',
+        string='Approval values')
 
 
 class account_analitic_account(models.Model):
@@ -95,7 +98,7 @@ class account_analitic_account(models.Model):
                 if qty_qroup.analitic_account_id.id == contract.id:
                     vals = {
                         'date': today,
-                        'quatity': qty_qroup.quatity,
+                        'quantity': qty_qroup.quantity,
                         'group_id': qty_qroup.id,
                     }
                     prepaid_hours_assigment.create(vals)
@@ -109,4 +112,5 @@ class account_analitic_account(models.Model):
 class invoice_type (models.Model):
     _inherit = 'invoice.type'
 
-    acc_analytic_qty_grp_id = fields.Many2one('account.analytic.prepaid_hours')
+    acc_analytic_qty_grp_id = fields.Many2one(
+        'account.analytic.prepaid_hours', string="Prepaid hours")
