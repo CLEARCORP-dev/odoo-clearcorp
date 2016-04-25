@@ -14,7 +14,7 @@ Credits
 Contributors
 ------------
 
-* Fabio Vilchez <fabio.vilchez@gmail.com>
+* Fabio Vilchez <fabio.vilchez@clearcorp.co.cr>
 
 
 Maintainer
