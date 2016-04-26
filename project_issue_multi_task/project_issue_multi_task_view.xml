@@ -12,7 +12,7 @@
                 <xpath expr="//form/sheet/group/group/div/field[@name='task_id']" position="attributes">
                     <attribute name="invisible">True</attribute>
                 </xpath>
-                <xpath expr="//form/sheet/group/group/field[@name='priority']" position="after">
+                <xpath expr="//form/sheet/group/group/field[@name='user_id']" position="before">
                     <field name="feature_id"/>
                 </xpath>
                 <xpath expr="//notebook/page[@string='Extra Info']" position="before">
