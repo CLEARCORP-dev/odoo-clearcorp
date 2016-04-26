@@ -22,15 +22,32 @@ class feature(models.Model):
                              ('quote_pending', 'Quote Pending'),
                              ('quoted', 'Quoted')],
                              'Status', required=True)
+    issue_ids = fields.One2many('project.issue', 'feature_id')
 
 
-class issue(models.Model):
+class ProjectIssue(models.Model):
 
     _inherit = 'project.issue'
+
+    @api.model
+    def _defaul_prepaid_hours(self):
+        issue_id = self
+        prepaid_hours_ids =\
+            self.project_id.analitic_account_id.acc_analytic_qty_grp_ids
+        defaults = {'group_prepaid_hours': [
+            (0, 0,
+             {'issue_id': t.id, 'prepaid_hours': p.id, 'quantity': 0})
+            for t in issue_id
+            for p in prepaid_hours_ids
+            ]}
+        print "\ndefaults: ", defaults
+        return defaults
 
     group_approved = fields.One2many(
         'account.analytic.prepaid_hours_approval', 'ticket_id',
         string="Group approved")
+    group_prepaid_hours = fields.Many2many(
+        'account.analytic.prepaid_hours', default=_defaul_prepaid_hours)
 
     def _get_prepaid_hours(self):
         self.feature_id.work_type
@@ -111,9 +128,10 @@ class issue(models.Model):
 
         if self._context is None:
             self._context = {}
-        res = super(issue, self).fields_view_get(
+        res = super(ProjectIssue, self).fields_view_get(
             view_id=view_id, view_type=view_type, toolbar=toolbar,
             submenu=False)
+        print "\n fields view get project_issue res: ",  res, "\n"
         record_id = self._context and self._context.get(
             'active_id', False) or False
         active_model = self._context.get('active_model')

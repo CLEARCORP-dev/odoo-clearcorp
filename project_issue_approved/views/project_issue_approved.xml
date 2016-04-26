@@ -2,8 +2,6 @@
 
 <openerp>
     <data>
-
-
         <!-- project.scrum.feature -->
         <!-- form -->
         <record id="view_feature_form" model="ir.ui.view">
@@ -17,6 +15,9 @@
                         string="Quote Pending" class="oe_highlight" />
                     <button name="set_quoted" type="object"
                         string="Quoted" />
+                </xpath>
+                <xpath expr="//page[@name='description']" position="after">
+                    <field name="issue_ids"/>
                 </xpath>
             </field>
         </record>
@@ -54,7 +55,7 @@
                     position="before">
                     <page string="Approvals" name="prepaycontracts">
                         <field name="group_approved" widget="one2many_list" mode="tree">
-                            <tree string="Group approved" editable="bottom">
+                            <tree string="Group approved">
                                 <field name="ticket_id"/>
                                 <field name="user_id"/>
                                 <field name="date"/>
@@ -62,9 +63,12 @@
                                 <field name="state" widget="selection"/>
                                 <field name="approval_values" />
                                 <field name="approval_line_ids"/>
-                                <field name="approval_line_id"/>
                             </tree>
-                        </field>
+                        </field> 
+                        <!--field name="group_prepaid_hours" widget="x2many_2d_matrix" 
+                            field_x_axis="prepaid_hours_ids" 
+                            field_y_axis="issue_id" 
+                            field_value="quantity" /-->
                         
                         <div style="padding-bottom:16px">
                             <h2 style="display:inline; margin-right:24px">Approval 1</h2>

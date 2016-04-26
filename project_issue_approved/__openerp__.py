@@ -14,6 +14,8 @@
     'installable': True,
     'license': 'AGPL-3',
     'website': 'http://clearcorp.cr',
-    'depends': ['base', 'project_prepaid_hours'],
+    'depends': [
+        'base', 'project_prepaid_hours', 'web_widget_x2many_2d_matrix'
+    ],
     'data': ['views/project_issue_approved.xml']
 }

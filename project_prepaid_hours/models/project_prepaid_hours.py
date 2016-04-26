@@ -69,14 +69,24 @@ class account_analytic_prepaid_hours_approval(models.Model):
                               ('approved', 'Approved'),
                               ('rejected', 'Rejected')],
                              string='State', default='2b_approved')
-    approval_line_id = fields.Many2one(
-        'account.analytic.prepaid_hours_approval', string='Approval line')
     approval_line_ids = fields.One2many(
-        'account.analytic.prepaid_hours_approval', 'approval_line_id',
+        'account.analytic.prepaid_hours_approval_line', 'approval_id',
         string='Approval lines')
     approval_values = fields.One2many(
         'account.analytic.prepaid_hours_approved_values', 'approval_id',
         string='Approval values')
+
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
+                        submenu=False):
+
+        if self._context is None:
+            self._context = {}
+        res = super(account_analytic_prepaid_hours_approval, self).fields_view_get(
+            view_id=view_id, view_type=view_type, toolbar=toolbar,
+            submenu=False)
+        print "\n fields view get prepaid_hours_approval res: ",  res, "\n"
+        return res
 
 
 class account_analitic_account(models.Model):
