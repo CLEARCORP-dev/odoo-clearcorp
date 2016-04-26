@@ -51,7 +51,7 @@ class account_analytic_quantity_prepaid_hours_approval_line (models.Model):
     extra_amount = fields.Float('Extra amount')
 
 
-class account_analytic_prepaid_hours_approval(models.Model):
+class PrepaidHoursApproval(models.Model):
     _name = 'account.analytic.prepaid_hours_approval'
 
     @api.model
@@ -82,7 +82,7 @@ class account_analytic_prepaid_hours_approval(models.Model):
 
         if self._context is None:
             self._context = {}
-        res = super(account_analytic_prepaid_hours_approval, self).fields_view_get(
+        res = super(PrepaidHoursApproval, self).fields_view_get(
             view_id=view_id, view_type=view_type, toolbar=toolbar,
             submenu=False)
         print "\n fields view get prepaid_hours_approval res: ",  res, "\n"

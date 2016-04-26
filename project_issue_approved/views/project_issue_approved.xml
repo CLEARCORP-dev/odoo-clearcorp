@@ -17,7 +17,7 @@
                         string="Quoted" />
                 </xpath>
                 <xpath expr="//page[@name='description']" position="after">
-                    <field name="issue_ids"/>
+                    <field name="tickets_ids" widget="one2many_list"/>
                 </xpath>
             </field>
         </record>
@@ -47,15 +47,13 @@
             <field name="name">Project Issue Tracker Form</field>
             <field name="model">project.issue</field>
             <field name="inherit_id" ref="project_issue.project_issue_form_view" />
+            <field name="priority" eval="150" />
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='issue_type']" position="before">
-                    <field name="feature_id" domain="[('project_id', '=', project_id)]"/>
-                </xpath>
                 <xpath expr="//notebook/page[@string='Extra Info']"
                     position="before">
                     <page string="Approvals" name="prepaycontracts">
-                        <field name="group_approved" widget="one2many_list" mode="tree">
-                            <tree string="Group approved">
+                        <field name="prepaid_hours_approval_id" widget="one2many_list" mode="tree">
+                            <tree string="Approvals" name="approvals">
                                 <field name="ticket_id"/>
                                 <field name="user_id"/>
                                 <field name="date"/>
@@ -64,12 +62,7 @@
                                 <field name="approval_values" />
                                 <field name="approval_line_ids"/>
                             </tree>
-                        </field> 
-                        <!--field name="group_prepaid_hours" widget="x2many_2d_matrix" 
-                            field_x_axis="prepaid_hours_ids" 
-                            field_y_axis="issue_id" 
-                            field_value="quantity" /-->
-                        
+                        </field>
                         <div style="padding-bottom:16px">
                             <h2 style="display:inline; margin-right:24px">Approval 1</h2>
                             <span>

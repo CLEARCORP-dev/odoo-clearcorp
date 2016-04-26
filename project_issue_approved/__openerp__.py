@@ -15,7 +15,8 @@
     'license': 'AGPL-3',
     'website': 'http://clearcorp.cr',
     'depends': [
-        'base', 'project_prepaid_hours', 'web_widget_x2many_2d_matrix'
+        'base', 'project_prepaid_hours', 'project_scrum_method',
+        'project_scrum_work_type'
     ],
     'data': ['views/project_issue_approved.xml']
 }

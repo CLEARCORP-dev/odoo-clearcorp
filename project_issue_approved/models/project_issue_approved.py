@@ -13,41 +13,13 @@ class account_analitic_account(models.Model):
     currency_invoice = fields.Many2one('res.currency')
 
 
-class feature(models.Model):
-
-    _inherit = 'project.scrum.feature'
-
-    state = fields.Selection([('draft', 'New'), ('open', 'In Progress'),
-                             ('cancelled', 'Cancelled'), ('done', 'Done'),
-                             ('quote_pending', 'Quote Pending'),
-                             ('quoted', 'Quoted')],
-                             'Status', required=True)
-    issue_ids = fields.One2many('project.issue', 'feature_id')
-
-
 class ProjectIssue(models.Model):
 
     _inherit = 'project.issue'
 
-    @api.model
-    def _defaul_prepaid_hours(self):
-        issue_id = self
-        prepaid_hours_ids =\
-            self.project_id.analitic_account_id.acc_analytic_qty_grp_ids
-        defaults = {'group_prepaid_hours': [
-            (0, 0,
-             {'issue_id': t.id, 'prepaid_hours': p.id, 'quantity': 0})
-            for t in issue_id
-            for p in prepaid_hours_ids
-            ]}
-        print "\ndefaults: ", defaults
-        return defaults
-
-    group_approved = fields.One2many(
+    prepaid_hours_approval_id = fields.One2many(
         'account.analytic.prepaid_hours_approval', 'ticket_id',
         string="Group approved")
-    group_prepaid_hours = fields.Many2many(
-        'account.analytic.prepaid_hours', default=_defaul_prepaid_hours)
 
     def _get_prepaid_hours(self):
         self.feature_id.work_type
@@ -95,32 +67,36 @@ class ProjectIssue(models.Model):
         }
 
     def _create_approval_line(self, approval_id):
-        _feature_obj = self.env['project.scrum.feature'].browse(
-            self.feature_id.id)
-        _approval_line_obj = self.env[
+        approval_line_obj = self.env[
             'account.analytic.prepaid_hours_approval_line']
-        for hour_type in self.feature_obj.hour_ids:
+        for hour_type in self.feature_id.hour_ids:
+            print "\n\n", hour_type
             _ana_acc = self.project_id.analytic_account_id
             prepaid_hours_id = _ana_acc.acc_analytic_qty_grp_ids.search(
-                [('name', '=', hour_type.name)]
+                [('work_type_id', '=', hour_type.work_type_id.id)]
                 )[0].acc_analytic_qty_grp_id.id
-            _approval_line_values = {
+            approval_line_values = {
                 'prepaid_hours_id': prepaid_hours_id,
                 'approval_id': approval_id,
                 'work_type_id': hour_type.id,
                 'requested_hours': self.feature_id.expected_hours,
                 # 'extra_hours': self._create_approval_line(prepaid_hours_id)
             }
+            res = approval_line_obj.create(approval_line_values)
+            print "\n create approval line: ", res
 
     def _create_approvals(self):
         today = date.today().strftime('%Y-%m-%d')
-        _approval_obj = self.env['account.analytic.prepaid_hours_approval']
-        _approval_values = {
+        approval_obj = self.env['account.analytic.prepaid_hours_approval']
+        approval_values = {
             'ticket_id': self.id,
             'user_id': self.user_id.id,
             'date': today,
             'state': '2b_approved',
         }
+        res = approval_obj.create(approval_values)
+        self._create_approval_line(res.id)
+        return res
 
     @api.model
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
