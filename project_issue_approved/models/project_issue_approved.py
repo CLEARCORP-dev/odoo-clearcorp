@@ -72,14 +72,12 @@ class ProjectIssue(models.Model):
         for hour_type in self.feature_id.hour_ids:
             print "\n\n", hour_type
             _ana_acc = self.project_id.analytic_account_id
-            prepaid_hours_id = _ana_acc.acc_analytic_qty_grp_ids.search(
-                [('work_type_id', '=', hour_type.work_type_id.id)]
-                )[0].acc_analytic_qty_grp_id.id
+            prepaid_hours_id = _ana_acc.prepaid_hours_id.id
             approval_line_values = {
                 'prepaid_hours_id': prepaid_hours_id,
                 'approval_id': approval_id,
-                'work_type_id': hour_type.id,
-                'requested_hours': self.feature_id.expected_hours,
+                'work_type_id': hour_type.work_type_id.id,
+                'requested_hours': hour_type.expected_hours,
                 # 'extra_hours': self._create_approval_line(prepaid_hours_id)
             }
             res = approval_line_obj.create(approval_line_values)

@@ -5,7 +5,7 @@
 from openerp import models, fields, api
 
 
-class PrjectScrumFeature(models.Model):
+class ProjectScrumFeature(models.Model):
 
     _inherit = 'project.scrum.feature'
 

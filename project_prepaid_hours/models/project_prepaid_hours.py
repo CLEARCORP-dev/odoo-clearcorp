@@ -14,7 +14,7 @@ class account_analytic_prepaid_hours (models.Model):
     quantity = fields.Float('Quantity', required=True)
     analitic_account_id = fields.Many2one(
         'account.analytic.account', string='Analytic Account')
-    # falta date
+    date = fields.Datetime('Date', required=True)
     active = fields.Boolean('Active', default=True)
 
 
@@ -93,18 +93,18 @@ class account_analitic_account(models.Model):
 
     _inherit = 'account.analytic.account'
 
-    acc_analytic_qty_grp_ids = fields.One2many(
+    prepaid_hours_id = fields.One2many(
         'account.analytic.prepaid_hours', 'analitic_account_id')
 
     def create_account_analytic_prepaid_hours_assigment(self):
         today = date.today().strftime('%Y-%m-%d')
         contracts = self.env['account.analytic.account'].search([])
-        acc_analytic_qty_grp_ids =\
+        prepaid_hours_id =\
             self.env['account.analytic.prepaid_hours'].search([])
         prepaid_hours_assigment =\
             self.env['account.analytic.prepaid_hours.assigment']
         for contract in contracts:
-            for qty_qroup in acc_analytic_qty_grp_ids:
+            for qty_qroup in prepaid_hours_id:
                 if qty_qroup.analitic_account_id.id == contract.id:
                     vals = {
                         'date': today,
@@ -122,5 +122,5 @@ class account_analitic_account(models.Model):
 class invoice_type (models.Model):
     _inherit = 'invoice.type'
 
-    acc_analytic_qty_grp_id = fields.Many2one(
+    prepaid_hours_id = fields.Many2one(
         'account.analytic.prepaid_hours', string="Prepaid hours")
