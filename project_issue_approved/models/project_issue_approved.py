@@ -95,21 +95,3 @@ class ProjectIssue(models.Model):
         res = approval_obj.create(approval_values)
         self._create_approval_line(res.id)
         return res
-
-    @api.model
-    def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
-                        submenu=False):
-
-        if self._context is None:
-            self._context = {}
-        res = super(ProjectIssue, self).fields_view_get(
-            view_id=view_id, view_type=view_type, toolbar=toolbar,
-            submenu=False)
-        print "\n fields view get project_issue res: ",  res, "\n"
-        record_id = self._context and self._context.get(
-            'active_id', False) or False
-        active_model = self._context.get('active_model')
-        if not view_type == 'form' or not record_id or (
-                active_model and active_model != 'project.issue'):
-            return res
-        return res

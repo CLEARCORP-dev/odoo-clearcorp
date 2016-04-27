@@ -4,6 +4,68 @@
 
 from openerp import models, fields, api
 from datetime import date
+from lxml import etree
+
+
+_TABLE = """
+<group>
+    <div style="padding-bottom:16px">
+        <h2 style="display:inline; margin-right:24px">Approval</h2>
+        <span>
+            Estado
+            <button style="margin-left:16px"
+                name="" string="Approve" />
+        </span>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th style="text-align:right">%s</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Horas Bolsa</td>
+                <td style="text-align:right">%s</td>
+            </tr>
+            <tr>
+                <td>Horas Consumidas</td>
+                <td style="text-align:right">-</td>
+            </tr>
+            <tr style="border-top:1px solid black">
+                <td style="padding-bottom:16px">
+                    <b>Horas Restantes</b>
+                </td>
+                <td style="text-align:right">
+                    <b>-</b>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Horas por aprobar</b>
+                </td>
+                <td style="text-align:right">
+                    <b>SUMA DE OTROS APPROVALS</b>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Horas requeridas</b>
+                    <ul style="list-style-type:none">
+                        <li>%s</li>
+                    </ul>
+                </td>
+                <td style="text-align:right">
+                    <b>SUMA</b>
+                    <ul style="list-style-type:none">
+                        <li>%s</li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </group>"""
 
 
 class account_analytic_prepaid_hours (models.Model):
@@ -76,6 +138,88 @@ class PrepaidHoursApproval(models.Model):
         'account.analytic.prepaid_hours_approved_values', 'approval_id',
         string='Approval values')
 
+    def _get_table(self):
+        _TABLE = """
+<group>
+    <div style="padding-bottom:16px">
+        <h2 style="display:inline; margin-right:24px">Approval</h2>
+        <span>
+            Estado
+            <button style="margin-left:16px"
+                name="" string="Approve" />
+        </span>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th style="text-align:right">%s</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Horas Bolsa</td>
+                <td style="text-align:right">%s</td>
+            </tr>
+            <tr>
+                <td>Horas Consumidas</td>
+                <td style="text-align:right">-</td>
+            </tr>
+            <tr style="border-top:1px solid black">
+                <td style="padding-bottom:16px">
+                    <b>Horas Restantes</b>
+                </td>
+                <td style="text-align:right">
+                    <b>-</b>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Horas por aprobar</b>
+                </td>
+                <td style="text-align:right">
+                    <b>SUMA DE OTROS APPROVALS</b>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Horas requeridas</b>
+                    <ul style="list-style-type:none">
+                        <li>%s</li>
+                    </ul>
+                </td>
+                <td style="text-align:right">
+                    <b>SUMA</b>
+                    <ul style="list-style-type:none">
+                        <li>%s</li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </group>"""
+
+    def _get_approval_lines(self):
+        lines = {
+            'hours': '',
+            'names': ''
+        }
+        for line in self.approval_line_ids:
+            lines['names'] += '<li>%s</li>', line.work_type_id
+            lines['hours'] += '<li>%s</li>', line.requested_hours
+        return lines
+
+    def _prepaid_hours(self):
+        prepaid_hours = {
+            'quantity': '',
+            'names': ''
+        }
+        for prepaid in self.ticket_id.project_id.analytic_account_id.prepaid_hours_id:
+            prepaid_hours['quantity'] +=\
+                '<td style="text-align:right">%s</td>', prepaid.quantity
+            prepaid_hours['names'] +=\
+                '<td style="text-align:right">%s</td>', prepaid.name
+
     @api.model
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
                         submenu=False):
@@ -86,6 +230,16 @@ class PrepaidHoursApproval(models.Model):
             view_id=view_id, view_type=view_type, toolbar=toolbar,
             submenu=False)
         print "\n fields view get prepaid_hours_approval res: ",  res, "\n"
+        doc = etree.fromstring(res['arch'])
+        table = etree.fromstring(_TABLE)
+        print etree.tostring(table, pretty_print=True)
+        for node in doc.iter():
+            if node.tag == 'sheet':
+                node.append(table)
+                break
+            print node.tag, type(node)
+        print etree.tostring(doc, pretty_print=True)
+        res['arch'] = etree.tostring(doc, pretty_print=True)
         return res
 
 
