@@ -52,7 +52,12 @@
                 <xpath expr="//notebook/page[@string='Extra Info']"
                     position="before">
                     <page string="Approvals" name="prepaycontracts">
-                        <field name="prepaid_hours_approval_id" widget="one2many_list" mode="tree">
+                        <field name="prepaid_hours_approval_id" widget="one2many_list" mode="tree"
+                            context="{
+                                'issue_id': active_id, 
+                                'approval_id': prepaid_hours_approval_id,
+                                'active_ids': active_ids
+                                }">
                             <tree string="Approvals" name="approvals">
                                 <field name="ticket_id"/>
                                 <field name="user_id"/>

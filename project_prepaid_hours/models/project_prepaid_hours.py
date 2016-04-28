@@ -138,6 +138,36 @@ class PrepaidHoursApproval(models.Model):
         'account.analytic.prepaid_hours_approved_values', 'approval_id',
         string='Approval values')
 
+    def _get_approval_lines(self):
+        lines = {
+            'hours': '',
+            'names': ''
+        }
+        ticket_id = self.env['project.issue'].browse(
+            self._context.get('issue_id'))
+        approval = ticket_id.prepaid_hours_approval_id[0]
+        for line in approval.approval_line_ids:
+            lines['names'] += '<li>%s</li>', line.work_type_id
+            lines['hours'] += '<li>%s</li>', line.requested_hours
+        print "\nLines: ", lines, self.approval_line_ids
+        return lines
+
+    def _get_prepaid_hours(self):
+        prepaid_hours = {
+            'quantity': '',
+            'names': ''
+        }
+        ticket_id = self.env['project.issue'].browse(
+            self._context.get('issue_id'))
+        for prepaid in\
+                ticket_id.project_id.analytic_account_id.prepaid_hours_id:
+            prepaid_hours['quantity'] +=\
+                '<td style="text-align:right">%s</td>', prepaid.quantity
+            prepaid_hours['names'] +=\
+                '<td style="text-align:right">%s</td>', prepaid.name
+        print "\nprepaid: ", prepaid_hours,
+        return prepaid_hours 
+
     def _get_table(self):
         _TABLE = """
 <group>
@@ -153,13 +183,16 @@ class PrepaidHoursApproval(models.Model):
         <thead>
             <tr>
                 <th></th>
-                <th style="text-align:right">%s</th>
-            </tr>
+                <th style="text-align:right">%s</th>""" +\
+            self._get_prepaid_hours()['names'] +\
+            """</tr>
         </thead>
         <tbody>
             <tr>
                 <td>Horas Bolsa</td>
-                <td style="text-align:right">%s</td>
+                <td style="text-align:right">%s</td>""" +\
+            self._get_prepaid_hours()['quantity'] +\
+            """
             </tr>
             <tr>
                 <td>Horas Consumidas</td>
@@ -185,40 +218,24 @@ class PrepaidHoursApproval(models.Model):
                 <td>
                     <b>Horas requeridas</b>
                     <ul style="list-style-type:none">
-                        <li>%s</li>
+                        <li>%s</li>""" +\
+            self._get_approval_lines()['names'] +\
+            """
                     </ul>
                 </td>
                 <td style="text-align:right">
                     <b>SUMA</b>
                     <ul style="list-style-type:none">
-                        <li>%s</li>
+                        <li>%s</li>""" +\
+            self._get_approval_lines()['hours'] +\
+            """
                     </ul>
                 </td>
             </tr>
         </tbody>
     </table>
     </group>"""
-
-    def _get_approval_lines(self):
-        lines = {
-            'hours': '',
-            'names': ''
-        }
-        for line in self.approval_line_ids:
-            lines['names'] += '<li>%s</li>', line.work_type_id
-            lines['hours'] += '<li>%s</li>', line.requested_hours
-        return lines
-
-    def _prepaid_hours(self):
-        prepaid_hours = {
-            'quantity': '',
-            'names': ''
-        }
-        for prepaid in self.ticket_id.project_id.analytic_account_id.prepaid_hours_id:
-            prepaid_hours['quantity'] +=\
-                '<td style="text-align:right">%s</td>', prepaid.quantity
-            prepaid_hours['names'] +=\
-                '<td style="text-align:right">%s</td>', prepaid.name
+        return _TABLE
 
     @api.model
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
@@ -229,16 +246,16 @@ class PrepaidHoursApproval(models.Model):
         res = super(PrepaidHoursApproval, self).fields_view_get(
             view_id=view_id, view_type=view_type, toolbar=toolbar,
             submenu=False)
-        print "\n fields view get prepaid_hours_approval res: ",  res, "\n"
+        print "\n fields view get prepaid_hours_approval res: ",  res, "\n", self
         doc = etree.fromstring(res['arch'])
-        table = etree.fromstring(_TABLE)
+        table = etree.fromstring(self._get_table())
         print etree.tostring(table, pretty_print=True)
         for node in doc.iter():
             if node.tag == 'sheet':
                 node.append(table)
                 break
             print node.tag, type(node)
-        print etree.tostring(doc, pretty_print=True)
+        print etree.tostring(doc, pretty_print=True), self, self._context, self._context.get('active_id')
         res['arch'] = etree.tostring(doc, pretty_print=True)
         return res
 
