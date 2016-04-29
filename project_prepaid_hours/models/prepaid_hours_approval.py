@@ -125,6 +125,9 @@ class PrepaidHoursApproval(models.Model):
         return prepaid_hours
 
     def _get_table(self):
+        ticket_id = self.env['project.issue'].browse(
+            self._context.get('issue_id'))
+        approval = ticket_id.prepaid_hours_approval_id[0]
         _TABLE = """
 <group>
     <div style="padding-bottom:16px">
@@ -133,7 +136,7 @@ class PrepaidHoursApproval(models.Model):
             Estado
             <button style="margin-left:16px"
                 name="do_approve_approval" string="Approve" type="object"
-                context="{'approval_id': 1}"/>
+                context="{'approval_id':""" + str(approval.id) + """}"/>
         </span>
     </div>
     <table>
@@ -146,7 +149,7 @@ class PrepaidHoursApproval(models.Model):
         <tbody>
             <tr>
                 <td>Horas Bolsa</td>""" +\
-            self._get_prepaid_hours()['quantity'] +\
+            str(self._get_prepaid_hours()['quantity']) +\
             """
             </tr>
             <tr>
@@ -180,7 +183,7 @@ class PrepaidHoursApproval(models.Model):
                 <td style="text-align:right">
                     <b>SUMA</b>
                     <ul style="list-style-type:none">""" +\
-            self._get_approval_lines()['hours'] +\
+            str(self._get_approval_lines()['hours']) +\
             """
                     </ul>
                 </td>
@@ -208,10 +211,11 @@ class PrepaidHoursApproval(models.Model):
             submenu=False)
         doc = etree.fromstring(res['arch'])
         table = etree.fromstring(self._get_table())
-        print etree.tostring(table, pretty_print=True)
+        # print etree.tostring(table, pretty_print=True)
         for node in doc.iter():
             if node.tag == 'sheet':
                 node.append(table)
+                node.append(etree.fromstring(self._get_table()))
                 break
             print node.tag, type(node)
         print etree.tostring(doc, pretty_print=True)
