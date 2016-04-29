@@ -13,7 +13,8 @@ _TABLE = """
         <span>
             Estado
             <button style="margin-left:16px"
-                name="" string="Approve" />
+                name="_approve_approval" string="Approve"
+                context="{'approval_id': 1}"/>
         </span>
     </div>
     <table>
@@ -131,7 +132,8 @@ class PrepaidHoursApproval(models.Model):
         <span>
             Estado
             <button style="margin-left:16px"
-                name="" string="Approve" />
+                name="do_approve_approval" string="Approve" type="object"
+                context="{'approval_id': 1}"/>
         </span>
     </div>
     <table>
@@ -187,6 +189,13 @@ class PrepaidHoursApproval(models.Model):
     </table>
     </group>"""
         return _TABLE
+
+    @api.multi
+    def do_approve_approval(self):
+        approval_id = self._context.get('approval_id')
+        print self._context
+        if approval_id:
+            print "\napproval_id: ", approval_id
 
     @api.model
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
