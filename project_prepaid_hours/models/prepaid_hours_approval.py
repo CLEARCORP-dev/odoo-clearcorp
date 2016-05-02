@@ -93,7 +93,30 @@ class PrepaidHoursApproval(models.Model):
         'account.analytic.prepaid_hours_approved_values', 'approval_id',
         string='Approval values')
 
-    def _get_approval_lines(self):
+    def _get_consumed_hours(self, ticket_id, approval_id):
+        date = fields.Date.from_string(fields.Date.today())
+        analityc_id = ticket_id.project_id.analytic_account_id.id
+        query = """select id, date from account_analytic_prepaid_hours
+                    where extract(month from date) = %s and
+                    extract(year from date) = %s and
+                    analitic_account_id = %s""" % (date.month, date.year,
+                                                   analityc_id)
+        query2 = """
+                select id, date from account_analytic_prepaid_hours_approval
+                    where extract(month from date) = %s and
+                    extract (year from date) = %s and
+                    ticket_id = %s and
+                    state = '%s'""" % (date.month, date.year, ticket_id.id,
+                                     'approved')
+        self._cr.execute(query)
+        prepaid_hours = self.env['account.analytic.prepaid_hours'].browse(
+            [ids['id'] for ids in self._cr.dictfetchall()])
+        self._cr.execute(query2)
+        approvals = self.env['account.analytic.prepaid_hours_approval'].browse(
+            [ids['id'] for ids in self._cr.dictfetchall()])
+        print "-----", date, query, prepaid_hours, approvals, "----------"
+
+    def _get_approval_lines(self, issue_id):
         lines = {
             'hours': '',
             'names': ''
@@ -127,6 +150,7 @@ class PrepaidHoursApproval(models.Model):
     def _get_table(self):
         ticket_id = self.env['project.issue'].browse(
             self._context.get('issue_id'))
+        self._get_consumed_hours(ticket_id, 0)
         approval = ticket_id.prepaid_hours_approval_id[0]
         _TABLE = """
 <group>
@@ -176,14 +200,14 @@ class PrepaidHoursApproval(models.Model):
                 <td>
                     <b>Horas requeridas</b>
                     <ul style="list-style-type:none">""" +\
-            self._get_approval_lines()['names'] +\
+            self._get_approval_lines(0)['names'] +\
             """
                     </ul>
                 </td>
                 <td style="text-align:right">
                     <b>SUMA</b>
                     <ul style="list-style-type:none">""" +\
-            str(self._get_approval_lines()['hours']) +\
+            str(self._get_approval_lines(0)['hours']) +\
             """
                     </ul>
                 </td>
@@ -217,7 +241,7 @@ class PrepaidHoursApproval(models.Model):
                 node.append(table)
                 node.append(etree.fromstring(self._get_table()))
                 break
-            print node.tag, type(node)
-        print etree.tostring(doc, pretty_print=True)
+            # print node.tag, type(node)
+        # print etree.tostring(doc, pretty_print=True)
         res['arch'] = etree.tostring(doc, pretty_print=True)
         return res
