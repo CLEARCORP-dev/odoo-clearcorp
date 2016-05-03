@@ -102,10 +102,13 @@ class PrepaidHoursApproval(models.Model):
              ('name', 'in', wt_feature_ids)], order='price desc')
         data = []
         for line in invoice_types_ids:
-            data.append({'wt_id': line.name.id,
-                         'prepaid': line.prepaid_hours_id.id,
-                         'price': line.price})
-        wt_contract = [type.prepaid_hours_id.id for type in invoice_types_ids]
+            data.append(
+                {'wt_id': line.name.id,
+                 'prepaid': line.prepaid_hours_id.id,
+                 'price':
+                 line.product_id.lst_price if line.product_price
+                    else line.price})
+        wt_contract = [it.prepaid_hours_id.id for it in invoice_types_ids]
         print "\n line-bolsa", wt_feature_ids, wt_contract, data
 
     def _get_consumed_hours(self, ticket_id, approval_id):
@@ -129,7 +132,7 @@ class PrepaidHoursApproval(models.Model):
         self._cr.execute(query2)
         approvals = self.env['account.analytic.prepaid_hours_approval'].browse(
             [ids['id'] for ids in self._cr.dictfetchall()])
-        print "-----", date, query, prepaid_hours, approvals, "----------"
+        print "-----", date, query, prepaid_hours, approvals, "--------"
         self._get_approval_line_by_prepaid_hours(ticket_id)
 
     def _get_approval_lines(self, issue_id):
@@ -142,7 +145,7 @@ class PrepaidHoursApproval(models.Model):
         approval = ticket_id.prepaid_hours_approval_id[0]
         for line in approval.approval_line_ids:
             lines['names'] += '<li>%s</li>' % line.work_type_id.name
-            lines['hours'] += '<li>%s</li>' % line.requested_hours
+            lines['hours'] += '<li>%s</li>' % (line.requested_hours*10000)
         print "\nLines: ", lines, self.approval_line_ids
         return lines
 
@@ -156,9 +159,9 @@ class PrepaidHoursApproval(models.Model):
         for prepaid in\
                 ticket_id.project_id.analytic_account_id.prepaid_hours_id:
             quantity = '<td style="text-align:right">%s</td>' %\
-                prepaid.quantity
+                (prepaid.quantity*10000)
             prepaid_hours['quantity'] += quantity
-            name = '<td style="text-align:right">%s</td>' % prepaid.name
+            name = '<th style="text-align:right">%s</th>' % prepaid.name
             prepaid_hours['names'] += name
         print "\nprepaid: ", prepaid_hours,
         return prepaid_hours
@@ -182,9 +185,11 @@ class PrepaidHoursApproval(models.Model):
     <table>
         <thead>
             <tr>
-                <th></th>""" +\
+                <th></th>
+                """ +\
             self._get_prepaid_hours()['names'] +\
-            """</tr>
+            """
+            </tr>
         </thead>
         <tbody>
             <tr>
@@ -209,7 +214,7 @@ class PrepaidHoursApproval(models.Model):
                     <b>Horas por aprobar</b>
                 </td>
                 <td style="text-align:right">
-                    <b>SUMA DE OTROS APPROVALS</b>
+                    <b>SUMA APPROVALS</b>
                 </td>
             </tr>
             <tr>
