@@ -93,6 +93,21 @@ class PrepaidHoursApproval(models.Model):
         'account.analytic.prepaid_hours_approved_values', 'approval_id',
         string='Approval values')
 
+    def _get_approval_line_by_prepaid_hours(self, ticket):
+        wt_feature_ids = [hours.work_type_id.id
+                          for hours in ticket.feature_id.hour_ids]
+        invoice_types_ids = self.env['invoice.type'].search(
+            [('contract_type_id', '=', ticket.project_id.analytic_account_id.id
+              ),
+             ('name', 'in', wt_feature_ids)], order='price desc')
+        data = []
+        for line in invoice_types_ids:
+            data.append({'wt_id': line.name.id,
+                         'prepaid': line.prepaid_hours_id.id,
+                         'price': line.price})
+        wt_contract = [type.prepaid_hours_id.id for type in invoice_types_ids]
+        print "\n line-bolsa", wt_feature_ids, wt_contract, data
+
     def _get_consumed_hours(self, ticket_id, approval_id):
         date = fields.Date.from_string(fields.Date.today())
         analityc_id = ticket_id.project_id.analytic_account_id.id
@@ -107,7 +122,7 @@ class PrepaidHoursApproval(models.Model):
                     extract (year from date) = %s and
                     ticket_id = %s and
                     state = '%s'""" % (date.month, date.year, ticket_id.id,
-                                     'approved')
+                                       'approved')
         self._cr.execute(query)
         prepaid_hours = self.env['account.analytic.prepaid_hours'].browse(
             [ids['id'] for ids in self._cr.dictfetchall()])
@@ -115,6 +130,7 @@ class PrepaidHoursApproval(models.Model):
         approvals = self.env['account.analytic.prepaid_hours_approval'].browse(
             [ids['id'] for ids in self._cr.dictfetchall()])
         print "-----", date, query, prepaid_hours, approvals, "----------"
+        self._get_approval_line_by_prepaid_hours(ticket_id)
 
     def _get_approval_lines(self, issue_id):
         lines = {
