@@ -161,7 +161,8 @@ class PrepaidHoursApproval(models.Model):
             quantity = '<td style="text-align:right">%s</td>' %\
                 (prepaid.quantity*10000)
             prepaid_hours['quantity'] += quantity
-            name = '<th style="text-align:right">%s</th>' % prepaid.name
+            name = '<th style="text-align:right; width:25%s">%s</th>' % (
+                '%', prepaid.name)
             prepaid_hours['names'] += name
         print "\nprepaid: ", prepaid_hours,
         return prepaid_hours
@@ -170,72 +171,78 @@ class PrepaidHoursApproval(models.Model):
         ticket_id = self.env['project.issue'].browse(
             self._context.get('issue_id'))
         self._get_consumed_hours(ticket_id, 0)
-        approval = ticket_id.prepaid_hours_approval_id[0]
-        _TABLE = """
-<group>
-    <div style="padding-bottom:16px">
-        <h2 style="display:inline; margin-right:24px">Approval</h2>
-        <span>
-            Estado
-            <button style="margin-left:16px"
-                name="do_approve_approval" string="Approve" type="object"
-                context="{'approval_id':""" + str(approval.id) + """}"/>
-        </span>
-    </div>
-    <table>
-        <thead>
-            <tr>
-                <th></th>
-                """ +\
-            self._get_prepaid_hours()['names'] +\
-            """
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Horas Bolsa</td>""" +\
-            str(self._get_prepaid_hours()['quantity']) +\
-            """
-            </tr>
-            <tr>
-                <td>Horas Consumidas</td>
-                <td style="text-align:right">-</td>
-            </tr>
-            <tr style="border-top:1px solid black">
-                <td style="padding-bottom:16px">
-                    <b>Horas Restantes</b>
-                </td>
-                <td style="text-align:right">
-                    <b>-</b>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <b>Horas por aprobar</b>
-                </td>
-                <td style="text-align:right">
-                    <b>SUMA APPROVALS</b>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <b>Horas requeridas</b>
-                    <ul style="list-style-type:none">""" +\
-            self._get_approval_lines(0)['names'] +\
-            """
-                    </ul>
-                </td>
-                <td style="text-align:right">
-                    <b>SUMA</b>
-                    <ul style="list-style-type:none">""" +\
-            str(self._get_approval_lines(0)['hours']) +\
-            """
-                    </ul>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    </group>"""
+        approvals = ticket_id.prepaid_hours_approval_id
+        _TABLE = """<group col="1" colspan="1">"""
+        for approval in approvals:
+            print approval.id
+            _TABLE += """
+    <group>
+        <div style="padding-bottom:16px">
+            <h2 style="display:inline; margin-right:24px">Approval</h2>
+            <span>
+                Estado
+                <button style="margin-left:16px"
+                    name="do_approve_approval" string="Approve" type="object"
+                    context="{'approval_id':""" + str(approval.id) + """}"/>
+            </span>
+        </div>
+        <br/>
+        <table style="width:100%">
+            <thead>
+                <tr>
+                    <th style="width:25%"></th>
+                    """ +\
+                self._get_prepaid_hours()['names'] +\
+                """
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Horas Bolsa</td>""" +\
+                str(self._get_prepaid_hours()['quantity']) +\
+                """
+                </tr>
+                <tr>
+                    <td>Horas Consumidas</td>
+                    <td style="text-align:right">-</td>
+                </tr>
+                <tr style="border-top:1px solid black">
+                    <td style="padding-bottom:16px">
+                        <b>Horas Restantes</b>
+                    </td>
+                    <td style="text-align:right">
+                        <b>-</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Horas por aprobar</b>
+                    </td>
+                    <td style="text-align:right">
+                        <b>SUMA APPROVALS</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Horas requeridas</b>
+                        <ul style="list-style-type:none">""" +\
+                self._get_approval_lines(0)['names'] +\
+                """
+                        </ul>
+                    </td>
+                    <td style="text-align:right">
+                        <b>SUMA</b>
+                        <ul style="list-style-type:none">""" +\
+                str(self._get_approval_lines(0)['hours']) +\
+                """
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </group><br/>
+        """
+        _TABLE += "</group>"
         return _TABLE
 
     @api.multi
@@ -260,7 +267,6 @@ class PrepaidHoursApproval(models.Model):
         for node in doc.iter():
             if node.tag == 'sheet':
                 node.append(table)
-                node.append(etree.fromstring(self._get_table()))
                 break
             # print node.tag, type(node)
         # print etree.tostring(doc, pretty_print=True)

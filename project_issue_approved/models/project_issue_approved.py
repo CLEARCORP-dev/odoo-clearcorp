@@ -2,7 +2,7 @@
 # © 2016 ClearCorp
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import models, fields, api
+from openerp import models, fields
 from datetime import date
 
 
@@ -71,15 +71,20 @@ class ProjectIssue(models.Model):
             'account.analytic.prepaid_hours_approval_line']
         for hour_type in self.feature_id.hour_ids:
             print "\n\n", hour_type
+            approval_line_values = {}
             _ana_acc = self.project_id.analytic_account_id
-            prepaid_hours_id = _ana_acc.prepaid_hours_id.id
-            approval_line_values = {
+            prepaid_hours_id = False
+            wt = hour_type.work_type_id
+            for invoice_type in _ana_acc.invoice_type_id:
+                if wt.id == invoice_type.name.id:
+                    prepaid_hours_id = invoice_type.prepaid_hours_id.id
+            approval_line_values.update({
                 'prepaid_hours_id': prepaid_hours_id,
                 'approval_id': approval_id,
                 'work_type_id': hour_type.work_type_id.id,
                 'requested_hours': hour_type.expected_hours,
                 # 'extra_hours': self._create_approval_line(prepaid_hours_id)
-            }
+            })
             res = approval_line_obj.create(approval_line_values)
             print "\n create approval line: ", res
 
