@@ -4,78 +4,101 @@
 
 import logging
 from datetime import datetime
-from osv import fields, osv
-from tools.translate import _
+from openerp.tools.translate import _
+from openerp import models, fields as flds, api
+from openerp.exceptions import Warning
 
 
-class product_supplierinfo(osv.osv):
+class ProductSuppplirInfo(models.Model):
     _inherit = "product.supplierinfo"
-    _columns = {
-        'product_id': fields.many2one('product.product', 'Product', required=True)
-    }
+    product_id = flds.Many2one('product.product', string='Product',
+                               required=True)
 
 
-class purchase_prediction_line(osv.osv):
+class PurchasePredictionLine(models.Model):
     _name = "purchase.prediction.line"
-    _columns = {
-        'name': fields.char('Nombre',size=64,readonly=True),
-        'product_id' : fields.many2one('product.product', 'Product',readonly=True),
-        'qty_sold': fields.float('Cantidad Vendidas', readonly=True),
-        'qty_purchase': fields.float('Cantidad Compradas', readonly=True),
-        'qty_proyect': fields.float('Cantidad Proyectos', readonly=True),
-        'stock_available':fields.related('product_id','qty_available',type='float',string='Real Stock', store=False, readonly=True),
-        'virtual_available':fields.related('product_id','virtual_available',type='float',string='Virtual Stock', store=False, readonly=True),
-        'qty_approved': fields.float('Cantidad Recomendada'),
-        'prediction_id' : fields.many2one('purchase.prediction', 'Prediction'),
-    }
+
+    name = flds.Char('Name', size=64, readonly=True)
+    product_id = flds.Many2one('product.product', 'Product', readonly=True)
+    qty_sold = flds.Float('Sold quantity', readonly=True)
+    qty_purchase = flds.Float('Purchased quantity', readonly=True)
+    qty_proyect = flds.Float('Projects quantity', readonly=True)
+    stock_available = flds.Float(
+        related='product_id.qty_available', string='Real Stock', readonly=True)
+    virtual_available = flds.Float(
+        related='product_id.virtual_available',
+        string='Virtual Stock', readonly=True)
+    ty_approved = flds.Float('Recommended quantity')
+    prediction_id = flds.Many2one('purchase.prediction', 'Prediction')
 
 
-class purchase_prediction(osv.osv):
-    def create(self, cr, uid, vals, context=None):
-        vals['name'] = self.pool.get('ir.sequence').get(cr, uid, 'purchase.prediction')
-        res = super(purchase_prediction, self).create(cr, uid, vals, context=context)
+class PurchasePrediction(models.Model):
 
-        #~ Instances
+    _name = "purchase.prediction"
+
+    name = flds.Char('Name', size=64, readonly=True)
+    partner_id = flds.Many2one(
+        'res.partner', string='Supplier', required=True)
+    prediction_month_qty = flds.Float('Months quantity')
+    prediction_id = flds.One2many(
+        'purchase.prediction.line', 'prediction_id', 'Products')
+    start_date = flds.date('Start date', required=True),
+    end_date = flds.date('End date', required=True)
+    create_date = flds.datetime('Create date', readonly=True)
+
+    @api.model
+    def create(self, vals):
+        vals['name'] = self.env['ir.sequence'].get('purchase.prediction')
+        res = super(PurchasePrediction, self).create(vals)
+
+        # ~ Instances
         prod_list = []
-        prod_id_list = []
-        stock_picking_in_list = []
-        stock_picking_out_list = []
-        stock_picking_int_list = []
 
-        prod_obj = self.pool.get('product.product')
-        stock_picking_obj = self.pool.get('stock.picking')
-        stock_move_obj = self.pool.get('stock.move')
-        prediction_line_obj = self.pool.get('purchase.prediction.line')
-        supplier_info_obj = self.pool.get('product.supplierinfo')
-        start_month =  datetime.strptime(vals['start_date'],'%Y-%m-%d')
-        end_month = datetime.strptime(vals['end_date'],'%Y-%m-%d')
-        
+        product_obj = self.env['product.product']
+        stock_picking_obj = self.env['stock.picking']
+        stock_move_obj = self.env['stock.move']
+        prediction_line_obj = self.env['purchase.prediction.line']
+        supplier_info_obj = self.env['product.supplierinfo']
+        start_month = datetime.strptime(vals['start_date'], '%Y-%m-%d')
+        end_month = datetime.strptime(vals['end_date'], '%Y-%m-%d')
+
         if start_month >= end_month:
-            raise osv.except_osv(_('Warning !'), _('Revise las fechas de inicio y fin.'))
-        
-        months_qty = (end_month.year - start_month.year) * 12 + end_month.month - start_month.month
-        
-        supplier_info_list = supplier_info_obj.search(cr, uid, [('name','=',vals['partner_id'])], context=context)
-        stock_picking_in_list = stock_picking_obj.search(cr, uid, [('date','>=',vals['start_date']),('date','<=',vals['end_date']),('type','=','in'),('state','=','done')], context=context)
-        stock_picking_out_list = stock_picking_obj.search(cr, uid, [('date','>=',vals['start_date']),('date','<=',vals['end_date']),('type','=','out'),('state','=','done')], context=context)
-        stock_picking_int_list = stock_picking_obj.search(cr, uid, [('date','>=',vals['start_date']),('date','<=',vals['end_date']),('type','=','internal'),('state','=','done')], context=context)
+            raise Warning(_('Check out the start and end dates.'))
 
-        for supplier_info in supplier_info_obj.browse(cr, uid, supplier_info_list, context=context):
+        months_qty = (end_month.year - start_month.year) * 12 +\
+            end_month.month - start_month.month
+
+        supplier_info_list = supplier_info_obj.search(
+            [('name', '=', vals['partner_id'])])
+        stock_picking_in_list = stock_picking_obj.search(
+            [('date', '>=', vals['start_date']),
+             ('date', '<=', vals['end_date']), ('type', '=', 'in'),
+             ('state', '=', 'done')])
+        stock_picking_out_list = stock_picking_obj.search(
+            [('date', '>=', vals['start_date']),
+             ('date', '<=', vals['end_date']), ('type', '=', 'out'),
+             ('state', '=', 'done')])
+        stock_picking_int_list = stock_picking_obj.search(
+            [('date', '>=', vals['start_date']),
+             ('date', '<=', vals['end_date']),  ('type', '=', 'internal'),
+             ('state', '=', 'done')])
+
+        for supplier_info in supplier_info_list:
             prod_list.append(supplier_info.product_id)
-               
+
         for product in prod_list:
 
-            # Si el product_id en la tabla product_supplierinfo no es el 
+            # Si el product_id en la tabla product_supplierinfo no es el
             # id de la tabla product_product entonces es el product_tpml_id
             # por lo tanto buscamos el producto por el product_tpml_id
             # para que la busqueda no de un error
             try:
                 logging.getLogger("Name").info(product.name)
             except:
-                p_id = prod_obj.search(cr, uid, [('product_tmpl_id','=', product.id),], context=context)
-                p = prod_obj.browse(cr, uid, p_id, context=context)
+                p_id = product_obj.search(
+                    [('product_tmpl_id', '=', product.id)])
+                p = product_obj.browse(p_id)
                 product = p[0]
-            
 
             qty_approved = 0
             qty_purchase = 0
@@ -85,22 +108,34 @@ class purchase_prediction(osv.osv):
             stock_move_out_list = []
             stock_move_int_list = []
 
-            stock_move_in_list = stock_move_obj.search(cr, uid, [('state','=','done'),('product_id','=',product.id),('picking_id','in',stock_picking_in_list),('date','>=',vals['start_date']),('date','<=',vals['end_date'])], context=context)
-            stock_move_out_list = stock_move_obj.search(cr, uid, [('state','=','done'),('product_id','=',product.id),('picking_id','in',stock_picking_out_list),('date','>=',vals['start_date']),('date','<=',vals['end_date'])], context=context)
-            stock_move_int_list = stock_move_obj.search(cr, uid, [('state','=','done'),('product_id','=',product.id),('picking_id','in',stock_picking_int_list),('date','>=',vals['start_date']),('date','<=',vals['end_date'])], context=context)
+            stock_move_in_list = stock_move_obj.search(
+                [('state', '=', 'done'), ('product_id', '=', product.id),
+                 ('picking_id', 'in', stock_picking_in_list),
+                 ('date', '>=', vals['start_date']),
+                 ('date', '<=', vals['end_date'])])
+            stock_move_out_list = stock_move_obj.search(
+                [('state', '=', 'done'), ('product_id', '=', product.id),
+                 ('picking_id', 'in', stock_picking_out_list),
+                 ('date', '>=', vals['start_date']),
+                 ('date', '<=', vals['end_date'])])
+            stock_move_int_list = stock_move_obj.search(
+                [('state', '=', 'done'), ('product_id', '=', product.id),
+                 ('picking_id', 'in', stock_picking_int_list),
+                 ('date', '>=', vals['start_date']),
+                 ('date', '<=', vals['end_date'])])
 
             # Purchase qty
-            for move in stock_move_obj.browse(cr, uid, stock_move_in_list, context=context):
+            for move in stock_move_obj.browse(stock_move_in_list):
                 qty_purchase = qty_purchase + move.product_qty
 
             # Sold qty
-            for move in stock_move_obj.browse(cr, uid, stock_move_out_list, context=context):
+            for move in stock_move_obj.browse(stock_move_out_list):
                 qty_sold = qty_sold + move.product_qty
 
             # Used in MRP Production
-            for move in stock_move_obj.browse(cr, uid, stock_move_int_list, context=context):
+            for move in stock_move_obj.browse(stock_move_int_list):
                 qty_proyect = qty_proyect + move.product_qty
-            
+
             try:
                 if product.virtual_available < product.qty_available:
                     qty_approved = ((qty_sold + qty_proyect - product.qty_available) / months_qty) * vals['prediction_month_qty']           
@@ -108,28 +143,14 @@ class purchase_prediction(osv.osv):
                     qty_approved = ((qty_sold + qty_proyect - product.virtual_available) / months_qty) * vals['prediction_month_qty']
             except:
                 qty_approved = 0
-            
             data = {
-            'product_id': product.id,
-            'name': self.pool.get('ir.sequence').get(cr, uid, 'purchase.prediction'),
-            'qty_sold' : qty_sold,
-            'qty_purchase': qty_purchase,
-            'qty_proyect': qty_proyect,
-            'qty_approved': qty_approved,
-            'prediction_id': res
+                'product_id': product.id,
+                'name': self.pool.get('ir.sequence').get('purchase.prediction'),
+                'qty_sold': qty_sold,
+                'qty_purchase': qty_purchase,
+                'qty_proyect': qty_proyect,
+                'qty_approved': qty_approved,
+                'prediction_id': res
             }
-            
-            prediction_line_obj.create(cr,uid,data)
-
+            prediction_line_obj.create(data)
         return res
-
-    _name = "purchase.prediction"
-    _columns = {
-        'name': fields.char('Nombre',size=64,readonly=True),
-        'partner_id' : fields.many2one('res.partner', 'Supplier',required=True),
-        'prediction_month_qty': fields.float('Cantidad Meses'),
-        'prediction_id' : fields.one2many('purchase.prediction.line','prediction_id', 'Products'),
-        'start_date' : fields.date('Fecha Inicio', required=True),
-        'end_date' : fields.date('Fecha Fin', required=True),
-        'create_date' : fields.datetime('Fecha Creacion', readonly=True),
-    }
