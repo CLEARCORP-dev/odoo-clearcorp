@@ -69,7 +69,7 @@ class Feature(osv.Model):
     _columns = {
                 'hour_ids': fields.one2many('project.scrum.feature.hours', 'feature_id', string='Feature Hours'),
                 }
-    
+
     def create_tasks(self, cr, uid, context):
         active_ids = context.get('active_ids', [])
         feature_obj = self.pool.get('project.scrum.feature')

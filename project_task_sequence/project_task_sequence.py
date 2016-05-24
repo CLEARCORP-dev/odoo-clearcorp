@@ -26,7 +26,7 @@ class project(osv.Model):
     _inherit = 'project.project'
     
     _columns = {
-        'task_sequence_id':       fields.many2one('ir.sequence', 'Task Sequence',domain=[('code','=','project.project')]),
+        'task_sequence_id': fields.many2one('ir.sequence', 'Task Sequence',domain=[('code','=','project.project')]),
                 }
     
     def create(self, cr, uid, vals, context=None):

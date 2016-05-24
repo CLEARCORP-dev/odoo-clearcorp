@@ -31,6 +31,7 @@
     'depends': [
                 'project_issue',
                 'project_task_state',
+                'project_scrum_method'
                 ],
     'data': ['project_issue_multi_task_view.xml'],
     'test': [],

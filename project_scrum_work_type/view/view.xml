@@ -10,6 +10,13 @@
 			<field name="model">project.scrum.feature</field>
 			<field name="inherit_id" ref="project_scrum_method.view_feature_form" />
 			<field name="arch" type="xml">
+			    <!-- <xpath expr="//form/header/button[@name='set_cancel']"
+                    position="after">
+                    <button name="set_quote_pending" type="object"
+                            string="Quote Pending" class="oe_highlight"/>
+                        <button name="set_quoted" type="object"
+                            string="Quoted"/>
+                </xpath> -->
 				<xpath expr="//form/sheet/group/group/field[@name='expected_hours']"
 					position="attributes">
 					<attribute name="readonly">True</attribute>
