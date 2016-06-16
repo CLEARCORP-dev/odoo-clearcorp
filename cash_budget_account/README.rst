@@ -2,11 +2,11 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-===========
-Cash Budget
-===========
+===================
+Cash Budget Account
+===================
 
-This module adds the logic for Cash Budget core management
+This module adds the logic for Cash Budget Account management
 and it's differents processes
 
 

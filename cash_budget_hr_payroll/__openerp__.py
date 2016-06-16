@@ -8,7 +8,7 @@
     'summary': "Goverment Institutions Budget",
     'author': 'ClearCorp',
     'website': 'http://clearcorp.cr',
-    'category': 'Generic Modules/Base',
+    'category': 'Accounting & Finance',
     'license': 'AGPL-3',
     'sequence': 10,
     'application': False,
