@@ -2,11 +2,11 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-=============================
-Goverment Institutions Budget
-=============================
+===========
+Cash Budget
+===========
 
-This module adds the logic for Goverment Institutions Budget management 
+This module adds the logic for Cash Budget core management
 and it's differents processes
 
 
