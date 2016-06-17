@@ -3,23 +3,23 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
-    'name': 'Cash Budget HR Payroll',
+    'name': 'Cash Budget Sale Stock',
     'version': '8.0.1.2',
-    'summary': "Goverment Institutions Cash Budget",
+    'summary': "Goverment Institutions Budget Stock",
     'author': 'ClearCorp',
     'website': 'http://clearcorp.cr',
-    'category': 'Accounting & Finance/Human Resources',
+    'category': 'Accounting & Finance/Sale/Stock',
     'license': 'AGPL-3',
     'sequence': 10,
     'application': False,
     'installable': True,
     'auto_install': False,
     'depends': [
-        'hr_payroll_account',
-        'hr_payroll',
+        'sale_stock',
+        'sale',
         'cash_budget'
         ],
     'data': [
-        'views/hr_payroll.xml',
+        'views/sale_view.xml',
         ]
 }

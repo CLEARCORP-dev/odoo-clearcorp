@@ -17,7 +17,8 @@
     'depends': [
         'account_account_extended_ccorp',
         'account_distribution_line',
-        'account'
+        'account',
+        'cash_budget'
         ],
     'data': [
         'security/ir.model.access.csv',
