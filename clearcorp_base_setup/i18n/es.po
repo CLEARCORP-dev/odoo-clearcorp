@@ -1,0 +1,64 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* clearcorp_base_setup
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 9.0c\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-09-26 22:41+0000\n"
+"PO-Revision-Date: 2016-09-26 22:41+0000\n"
+"Last-Translator: Fabio Vilchez\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: clearcorp_base_setup
+#: model:ir.ui.view,arch_db:clearcorp_base_setup.view_base_configuration_setup
+msgid "Allows you to configure options related to Base for your business according to Clearcorp customizations. You may also find some tools that makes your life easier while workign with Odoo."
+msgstr "Le permite configurar las opciones relacionadas con la Base para su negocio de acuerdo con las personalizaciones de Clearcorp. También puede encontrar algunas herramientas que hacen la vida más fácil cuando se trabaja con Odoo."
+
+#. module: clearcorp_base_setup
+#: model:ir.ui.view,arch_db:clearcorp_base_setup.view_base_configuration_setup
+msgid "Apply"
+msgstr "Aplicar"
+
+#. module: clearcorp_base_setup
+#: model:ir.ui.view,arch_db:clearcorp_base_setup.view_base_configuration_setup
+msgid "Base"
+msgstr "Base"
+
+#. module: clearcorp_base_setup
+#: model:ir.ui.view,arch_db:clearcorp_base_setup.view_base_configuration_setup
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: clearcorp_base_setup
+#: model:ir.actions.act_window,name:clearcorp_base_setup.action_clearcorp_base_setup
+#: model:ir.ui.menu,name:clearcorp_base_setup.menu_clearcorp_base_setup
+#: model:ir.ui.view,arch_db:clearcorp_base_setup.view_base_configuration_setup
+msgid "ClearCorp Base Setup"
+msgstr "ClearCorp Base Setup"
+
+#. module: clearcorp_base_setup
+#: model:ir.ui.view,arch_db:clearcorp_base_setup.view_base_configuration_setup
+msgid "Config"
+msgstr "Configurar"
+
+#. module: clearcorp_base_setup
+#: model:ir.ui.view,arch_db:clearcorp_base_setup.view_base_configuration_setup
+msgid "Configure"
+msgstr "Configurar"
+
+#. module: clearcorp_base_setup
+#: model:ir.model,name:clearcorp_base_setup.model_base_config_settings
+msgid "base.config.settings"
+msgstr "base.config.settings"
+
+#. module: clearcorp_base_setup
+#: model:ir.ui.view,arch_db:clearcorp_base_setup.view_base_configuration_setup
+msgid "or"
+msgstr "o"
+

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Base Config Settings Form View -->
+        <record id="view_base_configuration_setup" model="ir.ui.view">
+            <field name="name">base.config.settings</field>
+            <field name="model">base.config.settings</field>
+            <field name="arch" type="xml">
+                <form string="Configure" class="oe_form_configuration">
+                    <header>
+                        <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" type="object" name="cancel" class="oe_link"/>
+                    </header>
+                    <separator string="ClearCorp Base Setup"/>
+                    <div>
+                        <p>
+                            <label
+                                string="Allows you to configure options related to Base for your business according to Clearcorp customizations. You may also find some tools that makes your life easier while workign with Odoo."/>
+                        </p>
+                    </div>
+                    <group string="Base">
+                        <label for="id" string="Config"/>
+                        <div name="Config">
+                            <div name='module_force_no_demo_data'>
+                                <field name="module_force_no_demo_data"
+                                    class="oe_inline"/>
+                                <label for="module_force_no_demo_data"/>
+                            </div>
+                            <div name='module_auth_signup_verify_email'>
+                                <field name="module_auth_signup_verify_email"
+                                    class="oe_inline"/>
+                                <label for="module_auth_signup_verify_email"/>
+                            </div>
+                            <div name='module_auth_supplier'>
+                                <field name="module_auth_supplier"
+                                    class="oe_inline"/>
+                                <label for="module_auth_supplier"/>
+                            </div>
+                            <div name='module_base_user_gravatar'>
+                                <field name="module_base_user_gravatar"
+                                    class="oe_inline"/>
+                                <label for="module_base_user_gravatar"/>
+                            </div>
+                            <div name='module_database_cleanup'>
+                                <field name="module_database_cleanup"
+                                    class="oe_inline"/>
+                                <label for="module_database_cleanup"/>
+                            </div>
+                            <div name='module_disable_odoo_online'>
+                                <field name="module_disable_odoo_online"
+                                    class="oe_inline"/>
+                                <label for="module_disable_odoo_online"/>
+                            </div>
+                            <div name='module_users_ldap_mail'>
+                                <field name="module_users_ldap_mail"
+                                    class="oe_inline"/>
+                                <label for="module_users_ldap_mail"/>
+                            </div>
+                            <div name='module_users_ldap_populate'>
+                                <field name="module_users_ldap_populate"
+                                    class="oe_inline"/>
+                                <label for="module_users_ldap_populate"/>
+                            </div>
+                            <div name='module_web_searchbar_full_width'>
+                                <field name="module_web_searchbar_full_width"
+                                    class="oe_inline"/>
+                                <label for="module_web_searchbar_full_width"/>
+                            </div>
+                            <div name='module_web_send_message_popup'>
+                                <field name="module_web_send_message_popup"
+                                    class="oe_inline"/>
+                                <label for="module_web_send_message_popup"/>
+                            </div>
+                            <div name='module_web_widget_timepicker'>
+                                <field name="module_web_widget_timepicker"
+                                    class="oe_inline"/>
+                                <label for="module_web_widget_timepicker"/>
+                            </div>
+                            <div name='module_sale_automatic_workflow'>
+                                <field name="module_sale_automatic_workflow"
+                                    class="oe_inline"/>
+                                <label for="module_sale_automatic_workflow"/>
+                            </div>
+                            <div name='module_sale_exception'>
+                                <field name="module_sale_exception"
+                                    class="oe_inline"/>
+                                <label for="module_sale_exception"/>
+                            </div>
+                            <div name='module_sale_exception_nostock'>
+                                <field name="module_sale_exception_nostock"
+                                    class="oe_inline"/>
+                                <label for="module_sale_exception_nostock"/>
+                            </div>
+                            <div name='module_email_template_qweb'>
+                                <field name="module_email_template_qweb"
+                                    class="oe_inline"/>
+                                <label for="module_email_template_qweb"/>
+                            </div>
+                            <div name='module_base_location'>
+                                <field name="module_base_location"
+                                    class="oe_inline"/>
+                                <label for="module_base_location"/>
+                            </div>
+                            <div name='module_base_location_geonames_import'>
+                                <field name="module_base_location_geonames_import"
+                                    class="oe_inline"/>
+                                <label for="module_base_location_geonames_import"/>
+                            </div>
+                            <div name='module_base_partner_merge'>
+                                <field name="module_base_partner_merge"
+                                    class="oe_inline"/>
+                                <label for="module_base_partner_merge"/>
+                            </div>
+                            <div name='module_partner_address_street3'>
+                                <field name="module_partner_address_street3"
+                                    class="oe_inline"/>
+                                <label for="module_partner_address_street3"/>
+                            </div>
+                            <div name='module_partner_contact_birthdate'>
+                                <field name="module_partner_contact_birthdate"
+                                    class="oe_inline"/>
+                                <label for="module_partner_contact_birthdate"/>
+                            </div>
+                            <div name='module_partner_contact_gender'>
+                                <field name="module_partner_contact_gender"
+                                    class="oe_inline"/>
+                                <label for="module_partner_contact_gender"/>
+                            </div>
+                            <div name='module_partner_contact_in_several_companies'>
+                                <field name="module_partner_contact_in_several_companies"
+                                    class="oe_inline"/>
+                                <label for="module_partner_contact_in_several_companies"/>
+                            </div>
+                            <div name='module_partner_contact_nationality'>
+                                <field name="module_partner_contact_nationality"
+                                    class="oe_inline"/>
+                                <label for="module_partner_contact_nationality"/>
+                            </div>
+                            <div name='module_partner_external_map'>
+                                <field name="module_partner_external_map"
+                                    class="oe_inline"/>
+                                <label for="module_partner_external_map"/>
+                            </div>
+                            <div name='module_partner_firstname'>
+                                <field name="module_partner_firstname"
+                                    class="oe_inline"/>
+                                <label for="module_partner_firstname"/>
+                            </div>
+                            <div name='module_partner_identification'>
+                                <field name="module_partner_identification"
+                                    class="oe_inline"/>
+                                <label for="module_partner_identification"/>
+                            </div>
+                        </div>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+    <!-- Base Config Settings Action -->
+    <record id="action_clearcorp_base_setup" model="ir.actions.act_window">
+        <field name="name">ClearCorp Base Setup</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">base.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+    </record>
+    
+    <!-- Base Config Settings Menu -->
+    <menuitem id="menu_clearcorp_base_setup" action="action_clearcorp_base_setup"
+        name="ClearCorp Base Setup" parent="base.menu_config" sequence="112"/>
+
+    </data>
+</openerp>
