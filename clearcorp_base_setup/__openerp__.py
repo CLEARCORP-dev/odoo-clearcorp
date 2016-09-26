@@ -4,7 +4,7 @@
 
 {
     'name': 'ClearCorp Base Configuration',
-    'summary': 'addons, modules',
+    'summary': 'App base addons ClearCorp',
     'version': '9.0.1.0',
     'category': 'ClearCorp Modules',
     'website': 'http://clearcorp.cr',
