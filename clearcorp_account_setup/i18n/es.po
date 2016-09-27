@@ -1,0 +1,104 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* clearcorp_account_setup
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 9.0c\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-09-27 00:06+0000\n"
+"PO-Revision-Date: 2016-09-27 00:06+0000\n"
+"Last-Translator: Fabio Vilchez\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: clearcorp_account_setup
+#: model:ir.ui.view,arch_db:clearcorp_account_setup.view_account_configuration_setup
+msgid "Account"
+msgstr "Cuenta"
+
+#. module: clearcorp_account_setup
+#: model:ir.ui.view,arch_db:clearcorp_account_setup.view_account_configuration_setup
+msgid "Allows you to configure options related to accounting for your business according to Clearcorp customizations. You may also find some tools that makes your life easier while workign with Odoo."
+msgstr "Le permite configurar las opciones relacionadas con la contabilidad para su negocio de acuerdo con las personalizaciones Clearcorp. También puede encontrar algunas herramientas que hacen la vida más fácil cuando se trabaja con Odoo."
+
+#. module: clearcorp_account_setup
+#: model:ir.ui.view,arch_db:clearcorp_account_setup.view_account_configuration_setup
+msgid "Apply"
+msgstr "Aplicar"
+
+#. module: clearcorp_account_setup
+#: model:ir.ui.view,arch_db:clearcorp_account_setup.view_account_configuration_setup
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: clearcorp_account_setup
+#: model:ir.actions.act_window,name:clearcorp_account_setup.action_clearcorp_account_setup
+#: model:ir.ui.menu,name:clearcorp_account_setup.menu_clearcorp_account_setup
+#: model:ir.ui.view,arch_db:clearcorp_account_setup.view_account_configuration_setup
+msgid "ClearCorp Account Setup"
+msgstr "ClearCorp Account Setup"
+
+#. module: clearcorp_account_setup
+#: model:ir.ui.view,arch_db:clearcorp_account_setup.view_account_configuration_setup
+msgid "Config"
+msgstr "Configurar"
+
+#. module: clearcorp_account_setup
+#: model:ir.ui.view,arch_db:clearcorp_account_setup.view_account_configuration_setup
+msgid "Configure"
+msgstr "Configurar"
+
+#. module: clearcorp_account_setup
+#: model:ir.model.fields,help:clearcorp_account_setup.field_account_config_settings_module_account_invoice_ticket
+msgid "Installs the account_invoice_ticket."
+msgstr " Instala el modulo account_invoice_ticket."
+
+#. module: clearcorp_account_setup
+#: model:ir.model.fields,help:clearcorp_account_setup.field_account_config_settings_module_account_payment_report
+msgid "Installs the account_payment_report module."
+msgstr "Instala el modulo account_payment_report."
+
+#. module: clearcorp_account_setup
+#: model:ir.model.fields,help:clearcorp_account_setup.field_account_config_settings_module_base_company_prefix
+msgid "Installs the base_company_prefix module."
+msgstr "Installs the base_company_prefix module."
+
+#. module: clearcorp_account_setup
+#: model:ir.model.fields,help:clearcorp_account_setup.field_account_config_settings_module_partner_defaulter
+msgid "Installs the partner_defaulter module."
+msgstr "Instala el modulo partner_defaulter."
+
+#. module: clearcorp_account_setup
+#: model:ir.model,name:clearcorp_account_setup.model_account_config_settings
+msgid "account.config.settings"
+msgstr "account.config.settings"
+
+#. module: clearcorp_account_setup
+#: model:ir.model.fields,field_description:clearcorp_account_setup.field_account_config_settings_module_account_invoice_ticket
+msgid "account_invoice_ticket"
+msgstr "account_invoice_ticket"
+
+#. module: clearcorp_account_setup
+#: model:ir.model.fields,field_description:clearcorp_account_setup.field_account_config_settings_module_account_payment_report
+msgid "account_payment_report"
+msgstr "account_payment_report"
+
+#. module: clearcorp_account_setup
+#: model:ir.model.fields,field_description:clearcorp_account_setup.field_account_config_settings_module_base_company_prefix
+msgid "base_company_prefix"
+msgstr "base_company_prefix"
+
+#. module: clearcorp_account_setup
+#: model:ir.ui.view,arch_db:clearcorp_account_setup.view_account_configuration_setup
+msgid "or"
+msgstr "o"
+
+#. module: clearcorp_account_setup
+#: model:ir.model.fields,field_description:clearcorp_account_setup.field_account_config_settings_module_partner_defaulter
+msgid "partner_defaulter"
+msgstr "partner_defaulter"
+
