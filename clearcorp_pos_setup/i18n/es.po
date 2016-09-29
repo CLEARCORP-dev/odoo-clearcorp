@@ -1,0 +1,109 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* clearcorp_pos_setup
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 9.0c\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-09-29 15:20+0000\n"
+"PO-Revision-Date: 2016-09-29 15:20+0000\n"
+"Last-Translator: Fabio Vilchez\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: clearcorp_pos_setup
+#: model:ir.ui.view,arch_db:clearcorp_pos_setup.view_pos_configuration_setup
+msgid "Allows you to configure options related to POS for your business according to Clearcorp customizations. You may also find some tools that makes your life easier while workign with Odoo."
+msgstr "Le permite configurar las opciones relacionadas con el POS para su negocio de acuerdo con las personalizaciones de Clearcorp. También puede encontrar algunas herramientas que hacen la vida más fácil cuando se trabaja con Odoo."
+
+#. module: clearcorp_pos_setup
+#: model:ir.ui.view,arch_db:clearcorp_pos_setup.view_pos_configuration_setup
+msgid "Apply"
+msgstr "Aplicar"
+
+#. module: clearcorp_pos_setup
+#: model:ir.ui.view,arch_db:clearcorp_pos_setup.view_pos_configuration_setup
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: clearcorp_pos_setup
+#: model:ir.actions.act_window,name:clearcorp_pos_setup.action_clearcorp_pos_setup
+#: model:ir.ui.menu,name:clearcorp_pos_setup.menu_clearcorp_pos_setup
+#: model:ir.ui.view,arch_db:clearcorp_pos_setup.view_pos_configuration_setup
+msgid "ClearCorp POS Setup"
+msgstr "ClearCorp POS Setup"
+
+#. module: clearcorp_pos_setup
+#: model:ir.ui.view,arch_db:clearcorp_pos_setup.view_pos_configuration_setup
+msgid "Config"
+msgstr "Configurar"
+
+#. module: clearcorp_pos_setup
+#: model:ir.ui.view,arch_db:clearcorp_pos_setup.view_pos_configuration_setup
+msgid "Configure"
+msgstr "Configurar"
+
+#. module: clearcorp_pos_setup
+#: model:ir.model.fields,field_description:clearcorp_pos_setup.field_pos_config_settings_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: clearcorp_pos_setup
+#: model:ir.model.fields,field_description:clearcorp_pos_setup.field_pos_config_settings_create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: clearcorp_pos_setup
+#: model:ir.model.fields,field_description:clearcorp_pos_setup.field_pos_config_settings_display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: clearcorp_pos_setup
+#: model:ir.model.fields,field_description:clearcorp_pos_setup.field_pos_config_settings_id
+msgid "ID"
+msgstr "ID"
+
+#. module: clearcorp_pos_setup
+#: model:ir.model.fields,help:clearcorp_pos_setup.field_pos_config_settings_module_product_label
+msgid "Installs the product_label."
+msgstr "Instala el modulo  product_label."
+
+#. module: clearcorp_pos_setup
+#: model:ir.model.fields,field_description:clearcorp_pos_setup.field_pos_config_settings___last_update
+msgid "Last Modified on"
+msgstr "Modificado por última vez el"
+
+#. module: clearcorp_pos_setup
+#: model:ir.model.fields,field_description:clearcorp_pos_setup.field_pos_config_settings_write_uid
+msgid "Last Updated by"
+msgstr "Última actualización de"
+
+#. module: clearcorp_pos_setup
+#: model:ir.model.fields,field_description:clearcorp_pos_setup.field_pos_config_settings_write_date
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: clearcorp_pos_setup
+#: model:ir.ui.view,arch_db:clearcorp_pos_setup.view_pos_configuration_setup
+msgid "POS"
+msgstr "POS"
+
+#. module: clearcorp_pos_setup
+#: model:ir.ui.view,arch_db:clearcorp_pos_setup.view_pos_configuration_setup
+msgid "or"
+msgstr "o"
+
+#. module: clearcorp_pos_setup
+#: model:ir.model,name:clearcorp_pos_setup.model_pos_config_settings
+msgid "pos.config.settings"
+msgstr "pos.config.settings"
+
+#. module: clearcorp_pos_setup
+#: model:ir.model.fields,field_description:clearcorp_pos_setup.field_pos_config_settings_module_product_label
+msgid "product_label"
+msgstr "product_label"
+
