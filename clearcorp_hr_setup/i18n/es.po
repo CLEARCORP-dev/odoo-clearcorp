@@ -33,13 +33,13 @@ msgstr "Cancelar"
 #. module: clearcorp_hr_setup
 #: model:ir.actions.act_window,name:clearcorp_hr_setup.action_clearcorp_hr_setup
 #: model:ir.ui.menu,name:clearcorp_hr_setup.menu_clearcorp_hr_setup
-msgid "ClearCorp HR Setup"
-msgstr "ClearCorp HR Setup"
+msgid "HR Setup"
+msgstr "Configuración HR"
 
 #. module: clearcorp_hr_setup
 #: model:ir.ui.view,arch_db:clearcorp_hr_setup.view_account_configuration_setup
-msgid "ClearCorp hr Setup"
-msgstr "ClearCorp hr Setup"
+msgid "HR Setup"
+msgstr "Configuración HR"
 
 #. module: clearcorp_hr_setup
 #: model:ir.ui.view,arch_db:clearcorp_hr_setup.view_account_configuration_setup

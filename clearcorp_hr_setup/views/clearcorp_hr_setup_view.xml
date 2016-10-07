@@ -13,7 +13,7 @@
                         or
                         <button string="Cancel" type="object" name="cancel" class="oe_link"/>
                     </header>
-                    <separator string="ClearCorp hr Setup"/>
+                    <separator string="HR Setup"/>
                     <div>
                         <p>
                             <label
@@ -46,7 +46,7 @@
 
     <!-- Hr Config Settings Action -->
     <record id="action_clearcorp_hr_setup" model="ir.actions.act_window">
-        <field name="name">ClearCorp HR Setup</field>
+        <field name="name">HR Setup</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hr.config.settings</field>
         <field name="view_mode">form</field>
@@ -55,6 +55,6 @@
     
     <!-- Hr Config Settings Menu -->
     <menuitem id="menu_clearcorp_hr_setup" action="action_clearcorp_hr_setup"
-        name="ClearCorp HR Setup" parent="base.menu_config" sequence="114"/>
+        name="HR Setup" parent="base.menu_config" sequence="114"/>
     </data>
 </openerp>
