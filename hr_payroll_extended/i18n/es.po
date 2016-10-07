@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-26 21:16+0000\n"
-"PO-Revision-Date: 2015-08-26 21:16+0000\n"
+"POT-Creation-Date: 2016-10-07 20:03+0000\n"
+"PO-Revision-Date: 2016-10-07 20:03+0000\n"
 "Last-Translator: Glen Sojo <glen.sojo@clearcorp.co.cr>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: hr_payroll_extended
-#: code:addons/hr_payroll_extended/hr_payroll_extended.py:172
+#: code:addons/hr_payroll_extended/hr_payroll_extended.py:168
 #, python-format
 msgid "%s payroll of %s from %s to %s"
 msgstr "%s nómina de %s desde %s hasta %s"
@@ -51,13 +51,15 @@ msgstr "Bisemanal"
 #: field:hr.contract,fixed_working_hours_code:0
 #: field:hr.job,code:0
 #: field:hr.payroll.extended.input.value,code:0
+#: field:hr.payslip.input,input_code:0
+#: field:hr.payslip.worked_days,work_code:0
 msgid "Code"
 msgstr "Código"
 
 #. module: hr_payroll_extended
 #: model:ir.model,name:hr_payroll_extended.model_res_company
 msgid "Companies"
-msgstr "Compañias"
+msgstr "Compañías"
 
 #. module: hr_payroll_extended
 #: view:hr.payslip.run:hr_payroll_extended.inherit_hr_payslip_run_form
@@ -85,7 +87,11 @@ msgid "Created on"
 msgstr "Creado el"
 
 #. module: hr_payroll_extended
-#: field:hr.payslip,forced_period_id:0
+#: field:hr.payroll.extended.input.value,display_name:0
+msgid "Display Name"
+msgstr "Nombre para mostrar"
+
+#. module: hr_payroll_extended
 #: field:hr.payslip.run,period_id:0
 msgid "Force Period"
 msgstr "Forzar período"
@@ -99,6 +105,11 @@ msgstr "Quincenal"
 #: view:hr.payslip.run:hr_payroll_extended.inherit_hr_payslip_run_form
 msgid "Generate Payslips"
 msgstr "Generar nómina"
+
+#. module: hr_payroll_extended
+#: model:ir.model,name:hr_payroll_extended.model_hr_payslip_employees
+msgid "Generate payslips for all selected employees"
+msgstr "Generar boletas de pago para todos los empleados seleccionados"
 
 #. module: hr_payroll_extended
 #: field:hr.payroll.extended.input.value,id:0
@@ -115,6 +126,11 @@ msgstr "Códigos de entradas"
 #: model:ir.model,name:hr_payroll_extended.model_hr_job
 msgid "Job Position"
 msgstr "Puesto de trabajo"
+
+#. module: hr_payroll_extended
+#: field:hr.payroll.extended.input.value,__last_update:0
+msgid "Last Modified on"
+msgstr "Última modificación el"
 
 #. module: hr_payroll_extended
 #: field:hr.payroll.extended.input.value,write_uid:0
@@ -198,6 +214,11 @@ msgid "Semi-annually"
 msgstr "Semestralmente"
 
 #. module: hr_payroll_extended
+#: view:hr.payslip:hr_payroll_extended.view_payslip_form
+msgid "True"
+msgstr "True"
+
+#. module: hr_payroll_extended
 #: field:hr.payroll.extended.input.value,type:0
 msgid "Type"
 msgstr "Tipo"
@@ -239,7 +260,7 @@ msgid "Worked Days"
 msgstr "Días laborados"
 
 #. module: hr_payroll_extended
-#: code:addons/hr_payroll_extended/hr_payroll_extended.py:217
+#: code:addons/hr_payroll_extended/hr_payroll_extended.py:214
 #, python-format
 msgid "Worked Hours"
 msgstr "Horas laboradas"
@@ -251,13 +272,18 @@ msgid "You did not confirm a payslip"
 msgstr "No confirmaste una nómina"
 
 #. module: hr_payroll_extended
-#: code:addons/hr_payroll_extended/hr_payroll_extended.py:164
+#: code:addons/hr_payroll_extended/hr_payroll_extended.py:160
 #, python-format
 msgid "monthly"
 msgstr "mensual"
 
 #. module: hr_payroll_extended
-#: code:addons/hr_payroll_extended/hr_payroll_extended.py:162
+#: code:addons/hr_payroll_extended/hr_payroll_extended.py:158
 #, python-format
 msgid "weekly"
 msgstr "semanal"
+
+#. module: hr_payroll_extended
+#: view:hr.payslip:hr_payroll_extended.view_payslip_form
+msgid "{'default_contract_id': contract_id}"
+msgstr "{'default_contract_id': contract_id}"
