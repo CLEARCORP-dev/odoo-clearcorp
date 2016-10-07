@@ -34,7 +34,7 @@ msgstr ""
 #: model:ir.actions.act_window,name:clearcorp_pos_setup.action_clearcorp_pos_setup
 #: model:ir.ui.menu,name:clearcorp_pos_setup.menu_clearcorp_pos_setup
 #: model:ir.ui.view,arch_db:clearcorp_pos_setup.view_pos_configuration_setup
-msgid "ClearCorp POS Setup"
+msgid "POS Setup"
 msgstr ""
 
 #. module: clearcorp_pos_setup

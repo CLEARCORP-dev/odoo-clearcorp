@@ -35,7 +35,7 @@ msgstr "Cancelar"
 #: model:ir.ui.menu,name:clearcorp_pos_setup.menu_clearcorp_pos_setup
 #: model:ir.ui.view,arch_db:clearcorp_pos_setup.view_pos_configuration_setup
 msgid "ClearCorp POS Setup"
-msgstr "ClearCorp POS Setup"
+msgstr "Configuración del POS"
 
 #. module: clearcorp_pos_setup
 #: model:ir.ui.view,arch_db:clearcorp_pos_setup.view_pos_configuration_setup
