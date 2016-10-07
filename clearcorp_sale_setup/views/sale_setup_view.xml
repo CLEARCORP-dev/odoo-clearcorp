@@ -13,7 +13,7 @@
                         or
                         <button string="Cancel" type="object" name="cancel" class="oe_link"/>
                     </header>
-                    <separator string="ClearCorp sales Setup"/>
+                    <separator string="Sales Setup"/>
                     <div>
                         <p>
                             <label
@@ -41,7 +41,7 @@
 
     <!-- sale Config Settings Action -->
     <record id="action_clearcorp_sale_setup" model="ir.actions.act_window">
-        <field name="name">ClearCorp Sale Setup</field>
+        <field name="name">Sales Setup</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">sale.config.settings</field>
         <field name="view_mode">form</field>
@@ -50,6 +50,6 @@
     
     <!-- sale Config Settings Menu -->
     <menuitem id="menu_clearcorp_sale_setup" action="action_clearcorp_sale_setup"
-        name="ClearCorp Sales Setup" parent="base.menu_config" sequence="115"/>
+        name="Sales Setup" parent="base.menu_config" sequence="115"/>
     </data>
 </openerp>

@@ -32,13 +32,13 @@ msgstr "Cancelar"
 
 #. module: clearcorp_sale_setup
 #: model:ir.actions.act_window,name:clearcorp_sale_setup.action_clearcorp_sale_setup
-msgid "ClearCorp Sale Setup"
-msgstr "ClearCorp Configuración de ventas"
+msgid "Sale Setup"
+msgstr "Configuración Ventas"
 
 #. module: clearcorp_sale_setup
 #: model:ir.ui.menu,name:clearcorp_sale_setup.menu_clearcorp_sale_setup
-msgid "ClearCorp Sales Setup"
-msgstr "ClearCorp Configuración de ventas"
+msgid "Sales Setup"
+msgstr "Configuración Ventas"
 
 #. module: clearcorp_sale_setup
 #: model:ir.ui.view,arch_db:clearcorp_sale_setup.view_sale_configuration_setup
