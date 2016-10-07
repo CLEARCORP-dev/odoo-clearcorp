@@ -39,8 +39,8 @@ msgstr "Cancelar"
 #: model:ir.actions.act_window,name:clearcorp_account_setup.action_clearcorp_account_setup
 #: model:ir.ui.menu,name:clearcorp_account_setup.menu_clearcorp_account_setup
 #: model:ir.ui.view,arch_db:clearcorp_account_setup.view_account_configuration_setup
-msgid "ClearCorp Account Setup"
-msgstr "ClearCorp Account Setup"
+msgid "Account Setup"
+msgstr "Configuración de Contabilidad"
 
 #. module: clearcorp_account_setup
 #: model:ir.ui.view,arch_db:clearcorp_account_setup.view_account_configuration_setup
